@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>Login Successful!</h1>
+            <p>You have successfully logged in.</p>
+
+            <h2>{{ user.username }}</h2><br>
+
+            <button type="submit" class="btn btn-primary"><a href="{% url 'index' %}">Home</a>
+            </button>
+        </div>
+    </div>
+
+{% endblock %}

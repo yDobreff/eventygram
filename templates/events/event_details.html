@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>EVENT DETAILS</h1>
+
+            <strong>Image:</strong>
+            <span>{{ event.image }}</span><br><br>
+
+            <strong>Title:</strong>
+            <span>{{ event.title }}</span><br><br>
+
+            <strong>Venue:</strong>
+            <span>{{ event.venue }}</span><br><br>
+
+            <strong>Description:</strong>
+            <span>{{ event.description }}</span><br><br>
+
+            <strong>Type:</strong>
+            <span>{{ event.type }}</span><br><br>
+
+            <strong>Start time:</strong>
+            <span>{{ event.start_time }}</span><br><br>
+
+            <strong>End time:</strong>
+            <span>{{ event.end_time }}</span><br><br>
+
+            <strong>Price:</strong>
+            <span>{{ event.get_price_display }}</span><br><br>
+
+            <strong>Status:</strong>
+            <span>{{ event.status }}</span><br><br>
+
+            <strong>Available tickets:</strong>
+            <span>{{ event.available_tickets }}</span><br><br>
+
+            <strong>Participants:</strong>
+            <span>{{ event.participants.count }}</span><br><br>
+
+            <div style="display: flex; justify-content: center;">
+                <button class="btn btn-primary" style="margin: 0 auto; display: block;">
+                    <a href="{% url 'event_update' pk=event.pk %}">Update Event Details</a>
+                </button>
+                <button class="btn btn-primary" style="margin: 0 auto; display: block;">
+                    <a href="{% url 'event_delete' pk=event.pk %}">Delete Event</a>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

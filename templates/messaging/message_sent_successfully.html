@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h2>Message sent successful!</h2>
+
+            <button type="submit" class="btn btn-primary" style="margin: 0 auto; display: block;"><a
+                    href="{% url 'inbox' pk=user.pk %}" style="text-decoration: none; color: inherit;">Back to inbox</a>
+        </div>
+    </div>
+
+{% endblock %}

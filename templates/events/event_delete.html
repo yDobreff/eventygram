@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h2>Are you sure you want to delete the event '{{ event.title }}'?</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div style="text-align: center">
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

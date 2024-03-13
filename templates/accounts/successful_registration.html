@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>Registration Successful!</h1>
+            <p>Congratulations, you have successfully registered!</p>
+
+            <h1>User Details:</h1>
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+
+            <a href="{% url 'index' %}" class="btn btn-primary"
+               style="background-color: white; color: black; border-radius: 25px">Home</a>
+        </div>
+    </div>
+
+{% endblock %}

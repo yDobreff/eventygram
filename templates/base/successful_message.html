@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h2>Message sent successful!</h2>
+            <br>
+            <h4>Thank you contacting us!</h4>
+            <br>
+            <h5>Your message has been received, and we will get back to you as soon as possible.</h5>
+            <br>
+
+            <a href="{% url 'index' %}" class="btn btn-primary"
+               style="background-color: white; color: black; border-radius: 25px">Home</a>
+        </div>
+    </div>
+
+{% endblock %}

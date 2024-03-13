@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="link-buttons" style="text-align: center; margin-top: 40px">
+        <a class="link" href="{% url 'my_tickets' pk=user.pk %}">My Tickets</a>
+        <a class="link" href="{% url 'my_events' pk=user.pk %}">My Events</a>
+        <a class="link" href="{% url 'inbox' pk=user.pk %}">Inbox</a>
+        {% if user.is_staff %}
+            <a class="link" href="/admin/">Admin Panel</a>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <div class="form-wrapper">
+            <br>
+            <h1>User Profile Details</h1><br>
+            <br>
+            {% if user.profile_picture %}
+                <div class="image-wrap">
+                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                </div>
+            {% else %}
+                <span class="grey-text"> No profile picture available.</span>
+            {% endif %}
+            <br><br><br>
+
+            <strong>Username:</strong>
+            <span> {{ user.username }}</span><br><br>
+            <strong>Email:</strong>
+            <span> {{ user.email }}</span><br><br>
+            <strong>Age:</strong>
+            <span> {{ user.age }}</span><br><br>
+            <strong>First Name:</strong>
+            <span> {{ user.first_name }}</span><br><br>
+            <strong>Last Name:</strong>
+            <span> {{ user.last_name }}</span><br><br>
+            <strong>Location:</strong>
+            <span> {{ user.location }}</span><br><br>
+            <strong>Phone Number:</strong>
+            <span> {{ user.phone_number }}</span><br><br>
+            <strong>Website:</strong>
+            <span> {{ user.website }}</span><br><br>
+            <strong>Date of birth:</strong>
+            <span> {{ user.date_of_birth }}</span><br><br>
+            <strong>Balance:</strong>
+            <span> {{ user.balance }} $</span><br><br><br>
+
+            <button type="submit" class="btn btn-primary" style="margin: 0 auto; display: block;">
+                <a href="{% url 'profile_update' pk=user.pk %}" style="text-decoration: none; color: inherit;">
+                    Update Profile Details
+                </a>
+            </button>
+        </div>
+    </div>
+
+{% endblock %}

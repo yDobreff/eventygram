@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'style/css/inbox.css' %}">
+
+    <div class="container">
+        <div class="left-container">
+            <h1>SENT</h1>
+        </div>
+        <div class="right-container">
+            <h1>RECEIVED</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="bottom-left-container">
+            {% for message in sent_messages %}
+                <hr style="color: white">
+                <strong>To:</strong> {{ message.receiver }}<br>
+                <strong>Subject:</strong> {{ message.subject }}<br>
+                <strong>Message:</strong> {{ message.message }}<br>
+                <strong>Timestamp:</strong> {{ message.timestamp }}<br>
+                <hr style="color: white">
+            {% endfor %}
+        </div>
+        <div class="bottom-right-container">
+            {% for message in received_messages %}
+                <hr style="color: white">
+                <strong>To:</strong> {{ message.sender }}<br>
+                <strong>Subject:</strong> {{ message.subject }}<br>
+                <strong>Message:</strong> {{ message.message }}<br>
+                <strong>Timestamp:</strong> {{ message.timestamp }}<br>
+                <hr style="color: white">
+            {% endfor %}
+        </div>
+    </div>
+        <div style="text-align: center;">
+        <a class="button" href="{% url 'send_message' pk=user.pk %}">Send Message</a>
+        </div>
+{#        <div class="container-style-one">#}
+    {#            <div style="text-align: center">#}
+    {#                <a href="{% url 'send_message' pk=user.pk %}" class="btn btn-primary"#}
+    {#                   style="background-color: white; color: black; border-radius: 25px">Send Message</a>#}
+    {#            </div>#}
+
+
+{% endblock %}

@@ -1,0 +1,45 @@
+.container {
+    padding: 30px;
+    overflow: hidden;
+    display: flex;
+    max-width: 1600px;
+}
+
+.left-container, .right-container {
+    margin: 0 auto;
+    border-radius: 45px;
+    width: 20%;
+    float: left;
+    box-sizing: border-box;
+    text-align: center;
+    background-image: linear-gradient(to right, var(--gradient-color-mid1), var(--gradient-color-mid2));
+}
+
+.left-container {
+    color: white;
+    margin-right: 15%;
+}
+
+.right-container {
+    color: white;
+    margin-left: 15%;
+}
+
+.bottom-left-container, .bottom-right-container {
+    width: 50%;
+    float: left;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: black;
+    border-radius: 1%;
+}
+
+.bottom-left-container {
+    color: white;
+    margin-right: 0.5%;
+}
+
+.bottom-right-container {
+    color: white;
+    margin-left: 0.5%;
+}

@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>SEND MESSAGE</h1><br>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" style="margin: 0 auto; display: block;">Send
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}

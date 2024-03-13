@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>Create Event</h1>
+            <br>
+            <form method="post" action="{% url 'event_create' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>{{ form.title.label }}</label>
+                    {{ form.title }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.type.label }}</label>
+                    {{ form.type }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.description.label }}</label>
+                    {{ form.description }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.venue.label }}</label>
+                    {{ form.venue }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.start_time.label }}</label>
+                    {{ form.start_time }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.end_time.label }}</label>
+                    {{ form.end_time }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.price.label }}</label>
+                    {{ form.price }} <br><br>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form.image.label }}</label>
+                    {{ form.image }} <br><br>
+                </div>
+
+                <div class="error-container">
+                    <span>{{ form.errors }}</span>
+                </div>
+
+                <div style="text-align: center">
+                    <button type="submit" class="btn btn-lg btn-primary">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

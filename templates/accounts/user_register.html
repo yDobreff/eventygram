@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>USER REGISTRATION</h1>
+            <br>
+            <form style="display: inline-block" method="post" action="{% url 'register' %}" class="registration-form">
+                {% csrf_token %}
+
+                <label>{{ form.username.label }}:</label>
+                {{ form.username }} <br><br>
+                <span>{{ form.username.errors }}</span>
+
+                <label>{{ form.password1.label }}:</label>
+                {{ form.password1 }} <br><br>
+                <span>{{ form.password1.errors }}</span>
+
+                <label>{{ form.password2.label }}:</label>
+                {{ form.password2 }} <br><br>
+                <span>{{ form.password2.errors }}</span>
+
+                <label>{{ form.email.label }}:</label>
+                {{ form.email }} <br><br>
+                <span>{{ form.email.errors }}</span>
+
+                <br>
+                <label>* All fields are required *</label>
+                <br><br>
+
+                <button type="submit" class="btn btn-primary" style="margin: 0 auto; display: block;">Register
+                </button>
+                <br><br>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
