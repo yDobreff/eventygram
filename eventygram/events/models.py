@@ -1,26 +1,32 @@
 from eventygram.events.choices import EVENT_TYPE_CHOICES, EVENT_STATUS_CHOICES
 from django.core.validators import MinValueValidator, MaxValueValidator
 from eventygram.events.validators import validate_start_time
-from eventygram.accounts.models import UserProfile
-from eventygram import settings
+from eventygram.events.helpers import event_pic_path
+from eventygram.accounts.models import Profile
 from django.db import models
 import os
 
 
-def event_pic_path(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f"{instance.id}_pic.{ext}"
-    return os.path.join(settings.MEDIA_ROOT, '_pics', filename)
-
-
 class Event(models.Model):
+    creator = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        related_name='event_creator',
+        null=True,
+        blank=True,
+    )
+
+    is_private = models.BooleanField(
+        default=False,
+    )
+
     title = models.CharField(
         max_length=200,
     )
 
     description = models.TextField()
 
-    venue = models.CharField(
+    location = models.CharField(
         max_length=150,
     )
 
@@ -42,6 +48,10 @@ class Event(models.Model):
         choices=EVENT_TYPE_CHOICES,
     )
 
+    tickets_sales = models.BooleanField(
+        default=False
+    )
+
     available_tickets = models.PositiveIntegerField(
         blank=True,
         null=True,
@@ -49,14 +59,15 @@ class Event(models.Model):
     )
 
     participants = models.ManyToManyField(
-        UserProfile,
+        Profile,
         blank=True
     )
 
     status = models.CharField(
         choices=EVENT_STATUS_CHOICES,
         null=True,
-        blank=True
+        blank=True,
+        default='Active',
     )
 
     price = models.DecimalField(
@@ -65,6 +76,10 @@ class Event(models.Model):
         default=0,
         null=True,
         blank=True,
+    )
+
+    likes = models.PositiveIntegerField(
+        default=0,
     )
 
     def __str__(self):
@@ -81,16 +96,39 @@ class Event(models.Model):
                     os.remove(old_instance.image.path)
         super().save(*args, **kwargs)
 
+
+class EventTaskManager(Event):
+    class Meta:
+        proxy = True
+
     def get_price_display(self):
         if self.price == 0.0:
             return "Free"
         else:
             return "${:.2f}".format(self.price)
 
+    def generate_tickets(self, num_tickets, ticket_price):
+        if num_tickets <= 0:
+            raise ValueError("Number of tickets must be greater than 0.")
+
+        from eventygram.tickets.models import Ticket
+
+        for _ in range(num_tickets):
+            Ticket.objects.create(
+                owner=None,
+                event=self,
+                payment_status='Available',
+                price=ticket_price,
+            )
+
+        self.tickets_sales = True
+        self.price = ticket_price
+        self.save()
+
 
 class Review(models.Model):
     user = models.ForeignKey(
-        UserProfile,
+        Profile,
         on_delete=models.CASCADE,
     )
 
@@ -115,7 +153,7 @@ class Review(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(
-        UserProfile,
+        Profile,
         on_delete=models.CASCADE,
     )
 

@@ -1,8 +1,5 @@
-from eventygram.tickets.models import Ticket
-from django.views import View
+from django import forms
 
 
-class CreateTicketView(View):
-    class Meta:
-        model = Ticket
-        fields = '__all__'
+class CreateTicketForm(forms.Form):
+    num_tickets = forms.IntegerField()

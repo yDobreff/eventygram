@@ -7,7 +7,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'description',
-        'venue',
+        'location',
         'start_time',
         'end_time',
         'type',
@@ -16,7 +16,7 @@ class EventAdmin(admin.ModelAdmin):
         'status',
         'price',
     ]
-    list_filter = ['start_time', 'venue', 'type', 'price', 'status']
+    list_filter = ['start_time', 'location', 'type', 'price', 'status']
     search_fields = ['name', 'location']
 
     def get_participants_count(self, obj):

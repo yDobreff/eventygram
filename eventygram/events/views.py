@@ -1,17 +1,23 @@
 from eventygram.events.forms import EventCreationForm, EventUpdateForm
 from django.shortcuts import render, redirect, get_object_or_404
-from eventygram.accounts.models import UserProfile
+from django.contrib.auth.mixins import LoginRequiredMixin
 from eventygram.events.models import Event
 from django.views import View
 
 
 class EventsCatalogueView(View):
     def get(self, request, *args, **kwargs):
-        context = {}
+
+        events = Event.objects.all()
+
+        context = {
+            'events': events,
+        }
+
         return render(request, 'events/events_catalogue.html', context)
 
 
-class EventCreateView(View):
+class EventCreateView(LoginRequiredMixin, View):
     def get(self, request):
         form = EventCreationForm()
 
@@ -25,6 +31,7 @@ class EventCreateView(View):
 
         if form.is_valid():
             event = form.save(commit=False)
+            event.creator = request.user
             event.save()
             form.save_m2m()
             return redirect('successful_event_registration', pk=event.pk)
@@ -86,14 +93,3 @@ def event_delete(request, pk):
     }
 
     return render(request, 'events/event_delete.html', context)
-
-
-def my_events(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
-    events = user.event_set.all()
-
-    context = {
-        'events': events,
-    }
-
-    return render(request, 'events/../../templates/accounts/my_events.html', context)

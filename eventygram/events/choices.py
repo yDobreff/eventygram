@@ -24,10 +24,10 @@ EVENT_TYPE_CHOICES = [
 ]
 
 EVENT_STATUS_CHOICES = [
-    ('disabled', 'Disabled'),
-    ('active', 'Active'),
-    ('deleted', 'Deleted'),
-    ('time out', 'Time Out'),
-    ('completed', 'Completed'),
-    ('cancel', 'Cancel'),
+    ('Disabled', 'Disabled'),
+    ('Active', 'Active'),
+    ('Deleted', 'Deleted'),
+    ('Time out', 'Time Out'),
+    ('Completed', 'Completed'),
+    ('Cancel', 'Cancel'),
 ]

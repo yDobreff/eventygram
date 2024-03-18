@@ -1,55 +1,119 @@
 {% extends 'base/base.html' %}
 {% block content %}
 
-    <div class="link-buttons" style="text-align: center; margin-top: 40px">
-        <a class="link" href="{% url 'my_tickets' pk=user.pk %}">My Tickets</a>
-        <a class="link" href="{% url 'my_events' pk=user.pk %}">My Events</a>
-        <a class="link" href="{% url 'inbox' pk=user.pk %}">Inbox</a>
-        {% if user.is_staff %}
-            <a class="link" href="/admin/">Admin Panel</a>
-        {% endif %}
-    </div>
+    {% if user.pk == profile.pk %}
+        <div class="link-buttons" style="text-align: center; margin-top: 40px">
+            <a class="link" href="{% url 'my_tickets' pk=profile.pk %}">My Tickets</a>
+            <a class="link" href="{% url 'user_events' pk=profile.pk %}">My Events</a>
+            <a class="link" href="{% url 'inbox' pk=profile.pk %}">Inbox</a>
+            {% if profile.is_staff %}
+                <a class="link" href="/admin/">{{ profile_group }} Panel</a>
+            {% endif %}
+        </div>
+    {% endif %}
 
     <div class="container">
         <div class="form-wrapper">
+            {% if profile_group is not None %}
+                <br>
+                <h1 style="color: red"> {{ profile_group }} </h1>
+            {% endif %}
             <br>
-            <h1>User Profile Details</h1><br>
+            <h1>{{ profile.profile_type }} Profile Details</h1><br>
             <br>
-            {% if user.profile_picture %}
+            {% if profile.profile_picture %}
                 <div class="image-wrap">
-                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
                 </div>
             {% else %}
                 <span class="grey-text"> No profile picture available.</span>
             {% endif %}
             <br><br><br>
 
+            <strong>Profile:</strong>
+            {% if profile.is_private %}
+                <span>Private</span><br><br>
+            {% else %}
+                <span>Public</span><br><br>
+            {% endif %}
             <strong>Username:</strong>
-            <span> {{ user.username }}</span><br><br>
+            <span> {{ profile.username }}</span><br><br>
             <strong>Email:</strong>
-            <span> {{ user.email }}</span><br><br>
-            <strong>Age:</strong>
-            <span> {{ user.age }}</span><br><br>
-            <strong>First Name:</strong>
-            <span> {{ user.first_name }}</span><br><br>
-            <strong>Last Name:</strong>
-            <span> {{ user.last_name }}</span><br><br>
-            <strong>Location:</strong>
-            <span> {{ user.location }}</span><br><br>
+            <span> {{ profile.email }}</span><br><br>
             <strong>Phone Number:</strong>
-            <span> {{ user.phone_number }}</span><br><br>
+            <span> {{ profile.phone_number }}</span><br><br>
             <strong>Website:</strong>
-            <span> {{ user.website }}</span><br><br>
-            <strong>Date of birth:</strong>
-            <span> {{ user.date_of_birth }}</span><br><br>
+            <span> {{ profile.website }}</span><br><br>
             <strong>Balance:</strong>
-            <span> {{ user.balance }} $</span><br><br><br>
+            <span> {{ profile.balance }} $</span><br><br>
+            <strong>Subscribers:</strong>
+            <span> {{ profile.subscribers.count }}</span><br><br>
 
-            <button type="submit" class="btn btn-primary" style="margin: 0 auto; display: block;">
-                <a href="{% url 'profile_update' pk=user.pk %}" style="text-decoration: none; color: inherit;">
-                    Update Profile Details
-                </a>
-            </button>
+            {% if profile.profile_type == 'User' %}
+                <strong>Age:</strong>
+                <span> {{ profile.age }}</span><br><br>
+                <strong>Date of birth:</strong>
+                <span> {{ profile.date_of_birth }}</span><br><br>
+                <strong>First Name:</strong>
+                <span> {{ profile.first_name }}</span><br><br>
+                <strong>Last Name:</strong>
+                <span> {{ profile.last_name }}</span><br><br>
+                <strong>Location:</strong>
+                <span> {{ profile.location }}</span><br><br>
+                <strong>Bio:</strong>
+                <span>{{ profile.bio }}</span><br><br>
+
+            {% elif profile.profile_type == 'Company' %}
+                <strong>Industry:</strong>
+                <span>{{ profile.industry }}</span><br><br>
+                <strong>Address:</strong>
+                <span>{{ profile.address }}</span><br><br>
+                <strong>Description:</strong>
+                <span>{{ profile.description }}</span><br><br>
+
+            {% elif profile.profile_type == 'Organization' %}
+                <strong>Type:</strong>
+                <span>{{ profile.type }}</span><br><br>
+                <strong>Mission:</strong>
+                <span>{{ profile.mission }}</span><br><br>
+            {% endif %}
+
+            {% if user.pk == profile.pk %}
+                <div style="display: flex; justify-content: center;">
+                    <a href="{% url 'profile_update' pk=profile.pk %}" class="btn btn-primary"
+                       style="text-decoration: none; color: inherit; margin: 0 5px;">
+                        Update {{ profile.profile_type }} Details
+                    </a>
+                    <a href="{% url 'add_balance' pk=profile.pk %}" class="btn btn-primary"
+                       style="text-decoration: none; color: inherit; margin: 0 5px;">Add Balance
+                    </a>
+                    <a href="{% url 'change_password' pk=user.pk %}" class="btn btn-primary"
+                       style="text-decoration: none; color: inherit; margin: 0 5px;">Change Password
+                    </a>
+                </div>
+            {% elif user.pk != profile.pk %}
+                <div class="subscription-buttons">
+                    <form action="{% url 'send_message' pk=profile.pk %}" method="get"
+                          style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Send Message</button>
+                    </form>
+                    {% if not is_subscribed %}
+                        <form action="{% url 'subscribe_profile' pk=profile.pk %}" method="post"
+                              style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Subscribe</button>
+                        </form>
+                    {% elif is_subscribed %}
+                        <form action="{% url 'unsubscribe_profile' pk=profile.pk %}" method="post"
+                              style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Unsubscribe</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endif %}
+
         </div>
     </div>
 

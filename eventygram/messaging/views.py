@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from ..accounts.models import UserProfile
-from .forms import MessageForm
-from .models import Message
+from eventygram.messaging.forms import MessageForm
+from eventygram.messaging.models import Message
+from eventygram.accounts.models import Profile
+from django.contrib.auth import get_user_model
 
 
 def inbox(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
+    user = get_object_or_404(Profile, pk=pk)
 
     received_messages = Message.objects.filter(receiver=request.user)
     sent_messages = Message.objects.filter(sender=request.user)
@@ -20,7 +21,8 @@ def inbox(request, pk):
 
 
 def send_message(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
 
     if request.method == 'POST':
         form = MessageForm(request.POST)
@@ -28,12 +30,13 @@ def send_message(request, pk):
             message = form.save(commit=False)
             message.sender = request.user
             message.save()
-            return redirect('message_sent_successfully', pk=user.pk)
+
+            return redirect('message_sent_successfully', pk=profile.pk)
     else:
         form = MessageForm()
 
     context = {
-        'user': user,
+        'profile': profile,
         'form': form,
     }
 
@@ -41,21 +44,21 @@ def send_message(request, pk):
 
 
 def message_sent_successfully(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
+    profile = get_object_or_404(Profile, pk=pk)
 
     context = {
-        'user': user
+        'profile': profile
     }
 
     return render(request, 'messaging/message_sent_successfully.html', context)
 
 
-def delete_message(request, user_pk, message_pk):
-    user = get_object_or_404(UserProfile, pk=user_pk)
+def delete_message(request, profile_pk, message_pk):
+    profile = get_object_or_404(Profile, pk=profile_pk)
     message = get_object_or_404(Message, pk=message_pk)
 
     context = {
-        'user': user,
+        'profile': profile,
         'message': message,
     }
 

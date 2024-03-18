@@ -3,10 +3,55 @@
 
     <div class="container">
         <div class="form-wrapper">
-            <h1>Update Profile Details</h1><br>
+            <h1>Update {{ profile.profile_type }} Details</h1><br>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                <div class="profile-container">
+                    <strong>Profile:</strong>
+                </div>
+                <div class="form-container">
+                    {{ form.is_private }}
+                </div>
+                <br><br>
+
+                <strong>Email:</strong>
+                <span> {{ form.email }}</span><br><br>
+                <strong>Phone Number:</strong>
+                <span> {{ form.phone_number }}</span><br><br>
+                <strong>Website:</strong>
+                <span> {{ form.website }}</span><br><br>
+
+                {% if profile.profile_type == 'User' %}
+                    <strong>First Name:</strong>
+                    <span> {{ form.first_name }}</span><br><br>
+                    <strong>Last Name:</strong>
+                    <span> {{ form.last_name }}</span><br><br>
+                    <strong>Date of birth:</strong>
+                    <span> {{ form.date_of_birth }}</span><br><br>
+                    <strong>Location:</strong>
+                    <span> {{ form.location }}</span><br><br>
+                    <strong>Bio:</strong>
+                    <span>{{ form.bio }}</span><br><br>
+
+                {% elif profile.profile_type == 'Company' %}
+                    <strong>Industry:</strong>
+                    <span>{{ form.industry }}</span><br><br>
+                    <strong>Address:</strong>
+                    <span>{{ form.address }}</span><br><br>
+                    <strong>Description:</strong>
+                    <span>{{ form.description }}</span><br><br>
+
+                {% elif profile.profile_type == 'Organization' %}
+                    <strong>Type:</strong>
+                    <span>{{ form.type }}</span><br><br>
+                    <strong>Mission:</strong>
+                    <span>{{ form.mission }}</span><br><br>
+                {% endif %}
+
+                <strong>Profile Picture</strong>
+                <span>{{ form.profile_picture }}</span><br><br>
+
                 <button type="submit" class="btn btn-primary custom-button">Update</button>
             </form>
         </div>

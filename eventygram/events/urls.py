@@ -1,6 +1,7 @@
-from django.urls import path
-from eventygram.events import views
 from eventygram.events.views import EventsCatalogueView, EventCreateView
+from eventygram.accounts import views as accounts_views
+from eventygram.events import views
+from django.urls import path
 
 urlpatterns = [
     path('catalogue/', EventsCatalogueView.as_view(), name='events_catalogue'),
@@ -9,5 +10,5 @@ urlpatterns = [
     path('<int:pk>/details/', views.event_details, name='event_details'),
     path('<int:pk>/update/', views.event_update, name='event_update'),
     path('<int:pk>/delete/', views.event_delete, name='event_delete'),
-    path('<int:pk>/my_events/', views.my_events, name='my_events')
+    path('<int:pk>/my_events/', accounts_views.profile_events, name='user_events')
 ]

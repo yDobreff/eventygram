@@ -1,116 +1,228 @@
-from eventygram.accounts.forms import CreateUserForm, UpdateUserForm, LoginUserForm
+from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
+from eventygram.accounts.forms import CreateProfileForm, UpdateProfileForm
+from eventygram.accounts.models import Profile, ProfileSubscriber
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from eventygram.accounts.models import UserProfile
-from django.contrib.auth import login, logout
+from django.contrib import messages
 from django.views import View
 
 
-class RegisterUserView(View):
+class CreateProfileView(View):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('index')
 
-        form = CreateUserForm()
+        form = CreateProfileForm()
 
-        return render(request, 'accounts/user_register.html', {'form': form})
+        return render(request, 'accounts/profile_register.html', {'form': form})
 
     def post(self, request):
         if request.user.is_authenticated:
             return redirect('index')
 
-        form = CreateUserForm(request.POST)
+        form = CreateProfileForm(request.POST)
 
         if form.is_valid():
-            user = form.save()
-            login(request, user)
+            profile = form.save(commit=False)
+            profile_type = form.cleaned_data['profile_type']
+            profile.profile_type = profile_type
+            profile.save()
+            login(request, profile)
 
-            return redirect('successful_registration', pk=user.pk)
+            return redirect('successful_registration', pk=profile.pk)
 
-        return render(request, 'accounts/user_register.html', {'form': form})
+        return render(request, 'accounts/profile_register.html', {'form': form})
 
 
 def successful_registration(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
 
     context = {
-        'user': user
+        'profile': profile
     }
 
     return render(request, 'accounts/successful_registration.html', context)
 
 
-class LoginUserView(View):
+class LoginProfileView(View):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('index')
 
-        form = LoginUserForm()
+        form = AuthenticationForm()
 
-        return render(request, 'accounts/user_login.html', {'form': form})
+        return render(request, 'accounts/profile_login.html', {'form': form})
 
     def post(self, request):
         if request.user.is_authenticated:
             return redirect('index')
 
-        form = LoginUserForm(data=request.POST)
+        form = AuthenticationForm(data=request.POST)
 
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('successful_login', pk=user.pk)
+            profile = form.get_user()
 
-        return render(request, 'accounts/user_login.html', {'form': form})
+            if profile.groups.first():
+                profile.is_staff = True
+
+            profile.save()
+
+            login(request, profile)
+            return redirect('successful_login', pk=profile.pk)
+
+        return render(request, 'accounts/profile_login.html', {'form': form})
 
 
 def successful_login(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
 
     context = {
-        'user': user
+        'profile': profile
     }
 
     return render(request, 'accounts/successful_login.html', context)
 
 
-def logout_user(request):
+def logout_profile(request):
     logout(request)
 
-    return redirect('login')
+    return redirect('profile_login')
 
 
-def profile_details(request, pk):
-    user = get_object_or_404(UserProfile, pk=pk)
+@login_required
+def change_password(request, pk):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('successful_password', pk=request.user.pk)
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {'form': form})
+
+
+@login_required
+def successful_password(request, pk):
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
 
     context = {
-        'user': user
+        'profile': profile
+    }
+
+    return render(request, 'accounts/successful_password.html', context)
+
+
+@login_required
+def profile_details(request, pk):
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
+    profile_group = None
+    is_subscribed = None
+
+    if profile.groups.exists():
+        profile_group = profile.groups.first().name[:-1]
+    elif profile.is_superuser:
+        profile_group = "Admin"
+
+    if request.user.is_authenticated:
+        is_subscribed = ProfileSubscriber.objects.filter(subscriber=request.user, subscribed_to=profile).exists()
+
+    context = {
+        'profile': profile,
+        'profile_group': profile_group,
+        'is_subscribed': is_subscribed,
     }
 
     return render(request, 'accounts/profile_details.html', context)
 
 
-class UpdateUserView(View):
+class UpdateProfileView(View):
     @method_decorator(login_required)
     def get(self, request, pk):
-        user = get_object_or_404(UserProfile, pk=pk)
+        profile_model = get_user_model()
+        profile = get_object_or_404(profile_model, pk=pk)
 
-        if user == request.user:
-            form = UpdateUserForm(instance=user)
-            return render(request, 'accounts/profile_update.html', {'form': form})
+        if profile == request.user:
+            form = UpdateProfileForm(instance=profile)
+            return render(request, 'accounts/profile_update.html', {'form': form, 'profile': profile})
         else:
-            return redirect('profile_details')
+            return redirect('profile_details', pk=request.user.pk)
 
     @method_decorator(login_required)
     def post(self, request, pk):
-        user = get_object_or_404(UserProfile, pk=pk)
+        profile_model = get_user_model()
+        profile = get_object_or_404(profile_model, pk=pk)
 
-        if user == request.user:
-            form = UpdateUserForm(request.POST, request.FILES, instance=user)
+        if profile == request.user:
+            form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
                 form.save()
-                return redirect('profile_details', pk=user.pk)
+                return redirect('profile_details', pk=profile.pk)
             else:
                 return render(request, 'accounts/profile_update.html', {'form': form})
         else:
-            return redirect('profile_details')
+            return redirect('profile_details', pk=request.user.pk)
+
+
+def add_balance(request, pk):
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
+
+    context = {
+        'profile': profile
+    }
+
+    return render(request, 'accounts/add_balance.html', context)
+
+
+@login_required
+def subscribe_profile(request, pk):
+    profile_to_subscribe = get_object_or_404(Profile, pk=pk)
+    profile = get_user_model()
+    current_user = request.user
+    current_profile = profile.objects.get(pk=current_user.pk)
+
+    if current_profile.pk == profile_to_subscribe.pk:
+        return redirect('profile_details', pk=pk)
+
+    subscription_exists = ProfileSubscriber.objects.filter(subscriber=current_profile,
+                                                           subscribed_to=profile_to_subscribe).exists()
+    if not subscription_exists:
+        ProfileSubscriber.objects.create(subscriber=current_profile, subscribed_to=profile_to_subscribe)
+
+    return redirect('profile_details', pk=pk)
+
+
+@login_required
+def unsubscribe_profile(request, pk):
+    profile_to_unsubscribe = get_object_or_404(Profile, pk=pk)
+    profile = get_user_model()
+    current_user = request.user
+    current_profile = profile.objects.get(pk=current_user.pk)
+
+    subscription = ProfileSubscriber.objects.filter(subscriber=current_profile,
+                                                    subscribed_to=profile_to_unsubscribe).first()
+    if subscription:
+        subscription.delete()
+
+    return redirect('profile_details', pk=pk)
+
+
+def profile_events(request, pk):
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
+    events = profile.event_creator.all()
+
+    context = {
+        'events': events,
+    }
+
+    return render(request, 'accounts/my_events.html', context)

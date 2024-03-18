@@ -4,4 +4,5 @@ PAYMENT_STATUS_CHOICES = [
     ('Cancelled', 'Cancelled'),
     ('Refunded', 'Refunded'),
     ('Failed', 'Failed'),
+    ('Available', 'Available')
 ]

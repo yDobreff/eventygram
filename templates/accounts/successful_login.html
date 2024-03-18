@@ -6,9 +6,14 @@
             <h1>Login Successful!</h1>
             <p>You have successfully logged in.</p>
 
-            <h2>{{ user.username }}</h2><br>
+            <h2>{{ profile.username }}</h2><br>
 
-            <button type="submit" class="btn btn-primary"><a href="{% url 'index' %}">Home</a>
+            <button type="submit" class="btn btn-primary">
+                <a href="{% url 'index' %}">Home</a>
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+                <a href="{% url 'profile_details' pk=user.pk %}">Profile</a>
             </button>
         </div>
     </div>

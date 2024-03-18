@@ -8,4 +8,5 @@ urlpatterns = [
     path('contacts/', ContactView.as_view(), name='contacts'),
     path('contacts/successful_message/', views.successful_message, name='successful_message'),
     path('profile/', views.profile, name='profile'),
+    path('search/', views.search_result, name='search_results'),
 ]

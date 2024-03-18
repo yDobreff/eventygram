@@ -6,7 +6,20 @@
             <h1>SEND MESSAGE</h1><br>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                {% if profile.pk != user.pk %}
+                    <input type="hidden" name="receiver" value="{{ profile.pk }}">
+                {% else %}
+                    <label>{{ form.receiver.label }}</label>
+                    {{ form.receiver }}<br><br>
+                {% endif %}
+
+                <label>{{ form.subject.label }}</label>
+                {{ form.subject }}<br><br>
+
+                <label>{{ form.message.label }}</label>
+                {{ form.message }}<br><br>
+
                 <button type="submit" class="btn btn-primary" style="margin: 0 auto; display: block;">Send
                 </button>
             </form>

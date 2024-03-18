@@ -1,15 +1,16 @@
-from eventygram.accounts.models import UserProfile
+from eventygram.accounts.models import Profile
 from django.db import models
+
 
 class Message(models.Model):
     sender = models.ForeignKey(
-        UserProfile,
+        Profile,
         on_delete=models.CASCADE,
         related_name='sent_messages',
     )
 
     receiver = models.ForeignKey(
-        UserProfile,
+        Profile,
         on_delete=models.CASCADE,
         related_name='received_messages',
     )
@@ -20,7 +21,7 @@ class Message(models.Model):
 
     message = models.TextField()
 
-    timestamp = models.DateTimeField(
+    sent_on = models.DateTimeField(
         auto_now_add=True
     )
 
@@ -28,9 +29,13 @@ class Message(models.Model):
         default=False
     )
 
-    @classmethod
-    def send_message(cls, sender, receiver, subject, message_content):
-        message = cls.objects.create(
+
+class MessageTaskManager(Message):
+    class Meta:
+        proxy = True
+
+    def send_message(self, sender, receiver, subject, message_content):
+        message = self.objects.create(
             sender=sender,
             receiver=receiver,
             subject=subject,
@@ -38,10 +43,8 @@ class Message(models.Model):
         )
         return message
 
-    @classmethod
-    def get_received_messages(cls, user):
-        return cls.objects.filter(receiver=user)
+    def get_received_messages(self, user):
+        return self.objects.filter(receiver=user)
 
-    @classmethod
-    def get_unread_messages(cls, user):
-        return cls.objects.filter(receiver=user, is_read=False)
+    def get_unread_messages(self, user):
+        return self.objects.filter(receiver=user, is_read=False)

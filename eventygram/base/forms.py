@@ -6,3 +6,9 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='Email')
     subject = forms.CharField(label='Subject', max_length=150)
     message = forms.CharField(label='Message', widget=forms.Textarea)
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        max_length=100,
+    )

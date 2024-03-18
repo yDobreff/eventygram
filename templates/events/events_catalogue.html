@@ -1,11 +1,32 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block content %}
 
-    {% if user.is_authenticated %}
-    <div  style="text-align: center; padding: 20px">
-    <a class="btn btn-lg btn-primary" href="{% url 'event_create' %}">Create Event</a>
+    <link rel="stylesheet" href="{% static 'style/css/events_catalogue.css' %}">
+
+    <div class="container">
+        {% for event in events %}
+            {% if event.status == 'Active' %}
+            <strong> {{ event.image }}</strong><br>
+            <strong> {{ event.creator }}</strong><br>
+            <strong>Title: {{ event.title }}</strong><br>
+            <strong>Location: {{ event.location }}</strong><br>
+            <strong>Price: {{ event.price }}</strong><br>
+            <strong>Status: {{ event.status }}</strong><br>
+            <strong>Participants: {{ event.participants.all.count }}</strong><br>
+            <strong>Type: {{ event.type }}</strong><br>
+            <strong>Start Time: {{ event.start_time }}</strong><br>
+            <strong>End Time: {{ event.end_time }}</strong><br>
+
+            {% if event.tickets_sales %}
+                <strong>Available Tickets: {{ event.available_tickets }}</strong><br>
+            {% endif %}
+
+            <strong>Description: {{ event.description }}</strong><hr><br>
+
+            {% endif %}
+        {% endfor %}
     </div>
-    {% endif %}
 
 {% endblock %}
 

@@ -1,28 +1,29 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from eventygram.accounts.models import UserProfile
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms.widgets import SelectDateWidget
+from eventygram.accounts.models import Profile
 
 
-class CreateUserForm(UserCreationForm):
+class CreateProfileForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = UserProfile
+        model = Profile
+
         fields = [
+            'profile_type',
             'username',
             'password1',
             'password2',
             'email',
+
         ]
 
 
-class UpdateUserForm(UserChangeForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields.pop('password', None)
-
+class UpdateProfileForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
-        model = UserProfile
+        model = Profile
         fields = [
-            'age',
+            'is_private',
+            'email',
             'first_name',
             'last_name',
             'location',
@@ -30,12 +31,25 @@ class UpdateUserForm(UserChangeForm):
             'website',
             'date_of_birth',
             'profile_picture',
+            'bio',
+            'industry',  # company field
+            'address',  # company field
+            'description',  # company field
+            'type',  # organization filed
+            'mission',  # organization field
         ]
 
         widgets = {
             'date_of_birth': SelectDateWidget(years=range(1900, 2023)),
+            'phone_number': forms.TextInput(attrs={'placeholder': '+'}),
+            'is_private': forms.RadioSelect(
+                choices=(
+                    (True, 'Private'),
+                    (False, 'Public')
+                )
+            ),
         }
 
-
-class LoginUserForm(AuthenticationForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password', None)

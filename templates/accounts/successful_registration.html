@@ -4,11 +4,10 @@
     <div class="container">
         <div class="form-wrapper">
             <h1>Registration Successful!</h1>
-            <p>Congratulations, you have successfully registered!</p>
+            <h3>Congratulations, you have successfully registered!</h3>
 
-            <h1>User Details:</h1>
-            <p>Username: {{ user.username }}</p>
-            <p>Email: {{ user.email }}</p>
+            <p>Username: {{ profile.username }}</p>
+            <p>Email: {{ profile.email }}</p>
 
             <a href="{% url 'index' %}" class="btn btn-primary"
                style="background-color: white; color: black; border-radius: 25px">Home</a>

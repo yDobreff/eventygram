@@ -1,81 +1,143 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from eventygram.accounts.helpers import profile_pic_path
+from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
-from eventygram import settings
+from eventygram.accounts import choices
 from django.db import models
+from datetime import date
 import os
 
-
-def profile_pic_path(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f"{instance.id}_profile_pic.{ext}"
-    return os.path.join(settings.MEDIA_ROOT, 'profile_pics', filename)
+from eventygram.accounts.validators import phone_regex
 
 
-class UserProfile(AbstractUser):
+class Profile(AbstractUser):
+    profile_type = models.CharField(
+        max_length=20,
+        choices=choices.PROFILE_TYPE_CHOICES,
+        null=False,
+        blank=False
+    )
+
+    is_private = models.BooleanField(
+        default=False,
+    )
+
+    # FIELDS FOR ALL TYPES
+
     email = models.EmailField(
         unique=True,
         blank=False,
         null=False,
     )
-    bio = models.TextField(
-        max_length=250,
+
+    phone_number = models.CharField(
+        max_length=17,
+        validators=[phone_regex],
         blank=True,
         null=True,
     )
-    phone_number = models.IntegerField(
-        validators=[MinValueValidator(0)],
-        blank=True,
-        null=True,
-    )
-    location = models.CharField(
-        max_length=200,
-        blank=True,
-        null=True,
-    )
+
     website = models.URLField(
         blank=True,
         null=True,
     )
+
     profile_picture = models.ImageField(
         upload_to=profile_pic_path,
         blank=True,
         null=True
     )
-    age = models.IntegerField(
-        validators=[MaxValueValidator(150), MinValueValidator(0)],
-        blank=True,
-        null=True,
-    )
 
-    date_of_birth = models.DateField(
-        blank=True,
-        null=True,
-    )
     balance = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0,
     )
 
+    # FIELDS FOR INDIVIDUAL USER
+
+    date_of_birth = models.DateField(
+        blank=True,
+        null=True,
+    )
+
+    location = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+
+    bio = models.TextField(
+        max_length=250,
+        blank=True,
+        null=True,
+    )
+
+    # FIELDS FOR COMPANY
+
+    industry = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )
+
+    address = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+    )
+
+    description = models.TextField(
+        max_length=250,
+        blank=True,
+        null=True,
+    )
+
+    # FIELDS FOR ORGANIZATION
+
+    type = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+    )
+
+    mission = models.TextField(
+        max_length=250,
+        blank=True,
+        null=True,
+    )
+
     def save(self, *args, **kwargs):
         if self.pk:
             try:
-                old_instance = UserProfile.objects.get(pk=self.pk)
-            except UserProfile.DoesNotExist:
+                old_instance = Profile.objects.get(pk=self.pk)
+            except self.DoesNotExist:
                 pass
             else:
                 if old_instance.profile_picture != self.profile_picture:
                     if old_instance.profile_picture:
                         os.remove(old_instance.profile_picture.path)
+
         super().save(*args, **kwargs)
 
-    # Add balance to user
+    @property
+    def age(self):
+        if self.date_of_birth:
+            today = date.today()
+            age = today.year - self.date_of_birth.year - (
+                    (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+            return age
+        return None
+
+
+class ProfileTaskManager(Profile):
+    class Meta:
+        proxy = True
+
     def add_balance(self, amount):
         self.balance += amount
         self.save()
 
-    # Deduct balance of user
     def deduct_balance(self, amount):
         if self.balance < amount:
             raise ValidationError("Insufficient balance.")
@@ -83,3 +145,20 @@ class UserProfile(AbstractUser):
         self.save()
 
 
+class ProfileSubscriber(models.Model):
+    subscriber = models.ForeignKey(
+        Profile,
+        related_name='subscriptions',
+        on_delete=models.CASCADE
+    )
+
+    subscribed_to = models.ForeignKey(
+        Profile,
+        related_name='subscribers',
+        on_delete=models.CASCADE
+    )
+
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('subscriber', 'subscribed_to',)
