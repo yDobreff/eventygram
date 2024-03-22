@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h2>Course registered successfully!</h2>
+            <br>
+            <h4>Thank you for contributing to the community!</h4>
+            <br>
+            <a class="btn btn-lg btn-primary" href="{% url 'course_details' pk=course.pk %}">Course Details</a>
+            <a class="btn btn-lg btn-primary" href="{% url 'index' %}">Home</a>
+        </div>
+    </div>
+
+{% endblock %}

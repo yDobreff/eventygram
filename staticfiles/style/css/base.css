@@ -130,6 +130,7 @@ footer {
 .footerContainer {
     width: 100%;
     padding: 70px 30px 20px;
+    border-top: 10px solid black;
 }
 
 .socialIcons {
@@ -219,18 +220,21 @@ footer {
     margin-bottom: 10px;
     margin-top: 15px;
     border-radius: 40px;
+    border: solid white;
 }
 
 .about-container ul,
 .about-container p {
     font-size: larger;
+    color: white;
 }
 
 
 .about-container p {
     line-height: 1.6;
     margin-bottom: 20px;
-    text-align: center
+    text-align: center;
+    color: white;
 }
 
 .about-container ul {
@@ -265,9 +269,15 @@ footer {
     max-width: 500px;
     color: white;
     text-align: center;
+    border: solid white;
 }
 
 .form-wrapper p {
+    color: white;
+}
+
+.form-wrapper h1 {
+    padding: 15px;
     color: white;
 }
 
@@ -285,6 +295,10 @@ footer {
 
 .form-wrapper span {
     color: slategray;
+}
+
+.form-wrapper strong {
+    margin-bottom: 10px;
 }
 
 .success-message {
@@ -335,60 +349,80 @@ footer {
 
 /*This is my event`s carousel*/
 
-/*.form-group {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*}*/
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-/*label {*/
-/*    font-weight: bold;*/
-/*    margin-bottom: 0.5rem;*/
-/*}*/
+label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
 
-/*input,*/
-/*select,*/
-/*textarea {*/
-/*    width: 100%;*/
-/*    padding: 0.1rem;*/
-/*    margin-top: 0.5rem;*/
-/*    font-size: 1rem;*/
-/*}*/
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 0.1rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
 
-/*TO REVIEW*/
+.base-container form {
+    text-align: left;
+}
 
-/*.base-container form {*/
-/*    text-align: left;*/
-/*}*/
+.base-container label {
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+}
 
-/*.base-container label {*/
-/*    color: white;*/
-/*    font-weight: bold;*/
-/*    font-size: larger;*/
-/*}*/
+.base-container span {
+    color: slategray;
+    font-size: larger;
+    font-weight: bold;
+    padding: 1%;
+}
 
-/*.base-container span {*/
-/*    color: slategray;*/
-/*    font-size: larger;*/
-/*    font-weight: bold;*/
-/*    padding: 1%;*/
-/*}*/
+.base-container button {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 30px;
+}
 
-/*.base-container button {*/
-/*    background-color: #ffffff;*/
-/*    color: #000000;*/
-/*    border: none;*/
-/*    padding: 10px 20px;*/
-/*    margin-top: 10px;*/
-/*    cursor: pointer;*/
-/*    border-radius: 30px;*/
-/*}*/
+.base-container button:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
 
-/*.base-container button:hover {*/
-/*    background-color: #000000;*/
-/*    color: #ffffff;*/
-/*}*/
+.base-container p {
+    text-align: center;
+}
 
-/*.base-container p {*/
-/*    text-align: center;*/
-/*}*/
+/*This is my search bar*/
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#search-bar {
+    padding-right: 40px;
+}
+
+#search-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+}

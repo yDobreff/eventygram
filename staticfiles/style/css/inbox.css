@@ -7,6 +7,7 @@
 
 .left-container, .right-container {
     margin: 0 auto;
+    border: solid white;
     border-radius: 45px;
     width: 20%;
     float: left;
@@ -31,6 +32,7 @@
     box-sizing: border-box;
     text-align: center;
     background-color: black;
+    border: solid white;
     border-radius: 1%;
 }
 

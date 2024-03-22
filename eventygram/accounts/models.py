@@ -1,13 +1,11 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from eventygram.accounts.helpers import profile_pic_path
-from django.core.validators import MinValueValidator
+from eventygram.accounts.validators import phone_regex
 from django.core.exceptions import ValidationError
 from eventygram.accounts import choices
 from django.db import models
 from datetime import date
 import os
-
-from eventygram.accounts.validators import phone_regex
 
 
 class Profile(AbstractUser):
@@ -128,11 +126,6 @@ class Profile(AbstractUser):
                     (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
             return age
         return None
-
-
-class ProfileTaskManager(Profile):
-    class Meta:
-        proxy = True
 
     def add_balance(self, amount):
         self.balance += amount

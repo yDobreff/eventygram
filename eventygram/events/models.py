@@ -16,10 +16,6 @@ class Event(models.Model):
         blank=True,
     )
 
-    is_private = models.BooleanField(
-        default=False,
-    )
-
     title = models.CharField(
         max_length=200,
     )
@@ -80,6 +76,8 @@ class Event(models.Model):
 
     likes = models.PositiveIntegerField(
         default=0,
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
@@ -95,11 +93,6 @@ class Event(models.Model):
                 if old_instance.image != self.image and old_instance.image:
                     os.remove(old_instance.image.path)
         super().save(*args, **kwargs)
-
-
-class EventTaskManager(Event):
-    class Meta:
-        proxy = True
 
     def get_price_display(self):
         if self.price == 0.0:
@@ -126,29 +119,10 @@ class EventTaskManager(Event):
         self.save()
 
 
-class Review(models.Model):
-    user = models.ForeignKey(
-        Profile,
-        on_delete=models.CASCADE,
-    )
-
-    event = models.ForeignKey(
-        Event,
-        on_delete=models.CASCADE,
-    )
-
-    rating = models.IntegerField(
-        validators=[
-            MinValueValidator(1),
-            MaxValueValidator(5)
-        ],
-    )
-
-    comment = models.TextField()
-
-    date_posted = models.DateTimeField(
-        auto_now_add=True
-    )
+class Like(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    event = models.ForeignKey('Event', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
@@ -167,3 +141,7 @@ class Comment(models.Model):
     date_posted = models.DateTimeField(
         auto_now_add=True
     )
+
+    @property
+    def profile_username(self):
+        return self.user.username

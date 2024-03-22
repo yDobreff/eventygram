@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     'eventygram.accounts',
     'eventygram.events',
     'eventygram.tickets',
-    'eventygram.messaging'
+    'eventygram.messaging',
+    'eventygram.courses',
 ]
 
 MIDDLEWARE = [

@@ -7,15 +7,26 @@
             <form style="display: inline-block" method="post" action="{% url 'contacts' %}">
                 {% csrf_token %}
 
-                <label>Username:</label><br>
-                {{ form.username }} <br>
-                <label>Email:</label> <br>
-                {{ form.email }} <br>
-                <label>Subject:</label><br>
-                {{ form.subject }}<br>
-                <label>Message:</label><br>
-                {{ form.message }} <br>
-                {{ form.errors }}
+                <div>
+                    <label for="id_username">Username:</label><br>
+                    {{ form.username }}<br>
+                    <p>{{ form.username.errors }}</p>
+                </div>
+                <div>
+                    <label for="id_email">Email:</label><br>
+                    {{ form.email }}<br>
+                    <p>{{ form.email.errors }}</p>
+                </div>
+                <div>
+                    <label for="id_subject">Subject:</label><br>
+                    {{ form.subject }}<br>
+                    <p>{{ form.subject.errors }}</p>
+                </div>
+                <div>
+                    <label for="id_message">Message:</label><br>
+                    {{ form.message }}<br>
+                    <p>{{ form.message.errors }}</p>
+                </div>
 
                 <div style="text-align: center">
                     <button type="submit" class="btn btn-primary">Submit</button>

@@ -8,17 +8,18 @@
             <form style="display: inline-block" method="post" action="{% url 'profile_login' %}">
                 {% csrf_token %}
 
-                <label>{{ form.username.label }}</label>
-                {{ form.username }}<br><br>
-                <span> {{ form.username.errors }}</span>
+                <p><label>{{ form.username.label }}</label>
+                    {{ form.username }}</p>
+                <p><span>{{ form.username.errors }}</span></p>
 
-                <label> {{ form.password.label }}</label>
-                {{ form.password }}<br><br>
-                <span> {{ form.password.errors }}</span>
+                <p><label>{{ form.password.label }}</label>
+                    {{ form.password }}</p>
+                <p><span>{{ form.password.errors }}</span></p>
 
                 <div style="display: flex; justify-content: center;">
                     <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Login</button>
-                    <button type="submit" class="btn btn-primary" style="margin: 0 5px;"><a href="{% url 'profile_register' %}">Register</a>
+                    <button type="submit" class="btn btn-primary" style="margin: 0 5px;"><a
+                            href="{% url 'profile_register' %}">Register</a>
                     </button>
                 </div>
             </form>

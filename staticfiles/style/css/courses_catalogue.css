@@ -1,0 +1,93 @@
+.inner-navbar {
+    position: relative;
+}
+
+.inner-navbar .link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.inner-navbar .link:hover::before {
+    transform: scaleX(1);
+}
+
+.inner-navbar a {
+    color: white;
+    position: relative;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+/*This is my dropdown course categories menu*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown:hover .link {
+    background-color: transparent;
+}
+
+.dropdown-content {
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: none;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 6px 10px;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.subcategory-dropdown {
+    position: relative;
+}
+
+.subcategory-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    min-width: 160px;
+    z-index: 1;
+}
+
+.subcategory-dropdown:hover .subcategory-content {
+    display: block;
+}
+
+
+.link {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #000;
+    text-decoration: none;
+}
+
+.link:hover {
+    background-color: #ddd;
+}

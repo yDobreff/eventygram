@@ -1,10 +1,14 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block content %}
 
+    <link rel="stylesheet" href="{% static 'style/css/profile_details.css' %}">
+
     {% if user.pk == profile.pk %}
-        <div class="link-buttons" style="text-align: center; margin-top: 40px">
+        <div class="inner-navbar link-buttons" style="text-align: center; margin-top: 40px">
             <a class="link" href="{% url 'my_tickets' pk=profile.pk %}">My Tickets</a>
             <a class="link" href="{% url 'user_events' pk=profile.pk %}">My Events</a>
+            <a class="link" href="{% url 'my_courses' pk=profile.pk %}">My Courses</a>
             <a class="link" href="{% url 'inbox' pk=profile.pk %}">Inbox</a>
             {% if profile.is_staff %}
                 <a class="link" href="/admin/">{{ profile_group }} Panel</a>
@@ -14,104 +18,84 @@
 
     <div class="container">
         <div class="form-wrapper">
+
             {% if profile_group is not None %}
-                <br>
                 <h1 style="color: red"> {{ profile_group }} </h1>
             {% endif %}
-            <br>
-            <h1>{{ profile.profile_type }} Profile Details</h1><br>
-            <br>
+
+            <h1>{{ profile.profile_type }} Profile Details</h1>
+
             {% if profile.profile_picture %}
                 <div class="image-wrap">
                     <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
                 </div>
             {% else %}
-                <span class="grey-text"> No profile picture available.</span>
+                <p>No profile picture available.</p>
             {% endif %}
-            <br><br><br>
 
-            <strong>Profile:</strong>
-            {% if profile.is_private %}
-                <span>Private</span><br><br>
-            {% else %}
-                <span>Public</span><br><br>
-            {% endif %}
-            <strong>Username:</strong>
-            <span> {{ profile.username }}</span><br><br>
-            <strong>Email:</strong>
-            <span> {{ profile.email }}</span><br><br>
-            <strong>Phone Number:</strong>
-            <span> {{ profile.phone_number }}</span><br><br>
-            <strong>Website:</strong>
-            <span> {{ profile.website }}</span><br><br>
-            <strong>Balance:</strong>
-            <span> {{ profile.balance }} $</span><br><br>
-            <strong>Subscribers:</strong>
-            <span> {{ profile.subscribers.count }}</span><br><br>
+            <p><strong>Profile:</strong> <span>{% if profile.is_private %} Private {% else %} Public {% endif %}</span>
+            </p>
+            <p><strong>Username:</strong> <span>{{ profile.username }}</span></p>
+            <p><strong>Email:</strong> <span>{{ profile.email }}</span></p>
+            <p><strong>Phone Number:</strong> <span>{{ profile.phone_number }}</span></p>
+            <p><strong>Website:</strong> <span>{{ profile.website }}</span></p>
+            <p><strong>Balance:</strong> <span>{{ profile.balance }} $</span></p>
+            <p><strong>Subscribers:</strong> <span>{{ profile.subscribers.count }}</span></p>
 
             {% if profile.profile_type == 'User' %}
-                <strong>Age:</strong>
-                <span> {{ profile.age }}</span><br><br>
-                <strong>Date of birth:</strong>
-                <span> {{ profile.date_of_birth }}</span><br><br>
-                <strong>First Name:</strong>
-                <span> {{ profile.first_name }}</span><br><br>
-                <strong>Last Name:</strong>
-                <span> {{ profile.last_name }}</span><br><br>
-                <strong>Location:</strong>
-                <span> {{ profile.location }}</span><br><br>
-                <strong>Bio:</strong>
-                <span>{{ profile.bio }}</span><br><br>
+                <p><strong>Age:</strong> <span>{{ profile.age }}</span></p>
+                <p><strong>Date of birth:</strong> <span>{{ profile.date_of_birth }}</span></p>
+                <p><strong>First Name:</strong> <span>{{ profile.first_name }}</span></p>
+                <p><strong>Last Name:</strong> <span>{{ profile.last_name }}</span></p>
+                <p><strong>Location:</strong> <span>{{ profile.location }}</span></p>
+                <p><strong>Bio:</strong> <span>{{ profile.bio }}</span></p>
 
             {% elif profile.profile_type == 'Company' %}
-                <strong>Industry:</strong>
-                <span>{{ profile.industry }}</span><br><br>
-                <strong>Address:</strong>
-                <span>{{ profile.address }}</span><br><br>
-                <strong>Description:</strong>
-                <span>{{ profile.description }}</span><br><br>
+                <p><strong>Industry:</strong> <span>{{ profile.industry }}</span></p>
+                <p><strong>Address:</strong> <span>{{ profile.address }}</span></p>
+                <p><strong>Description:</strong> <span>{{ profile.description }}</span></p>
 
             {% elif profile.profile_type == 'Organization' %}
-                <strong>Type:</strong>
-                <span>{{ profile.type }}</span><br><br>
-                <strong>Mission:</strong>
-                <span>{{ profile.mission }}</span><br><br>
+                <p><strong>Type:</strong> <span>{{ profile.type }}</span></p>
+                <p><strong>Mission:</strong> <span>{{ profile.mission }}</span></p>
             {% endif %}
 
             {% if user.pk == profile.pk %}
                 <div style="display: flex; justify-content: center;">
-                    <a href="{% url 'profile_update' pk=profile.pk %}" class="btn btn-primary"
-                       style="text-decoration: none; color: inherit; margin: 0 5px;">
+                    <a href="{% url 'profile_update' pk=profile.pk %}" class="btn btn-primary" style="margin: 0 auto">
                         Update {{ profile.profile_type }} Details
                     </a>
-                    <a href="{% url 'add_balance' pk=profile.pk %}" class="btn btn-primary"
-                       style="text-decoration: none; color: inherit; margin: 0 5px;">Add Balance
+                    <a href="{% url 'add_balance' pk=profile.pk %}" class="btn btn-primary" style="margin: 0 auto">Add Balance
                     </a>
-                    <a href="{% url 'change_password' pk=user.pk %}" class="btn btn-primary"
-                       style="text-decoration: none; color: inherit; margin: 0 5px;">Change Password
+                    <a href="{% url 'change_password' pk=user.pk %}" class="btn btn-primary" style="margin: 0 auto">Change Password
                     </a>
                 </div>
+
             {% elif user.pk != profile.pk %}
-                <div class="subscription-buttons">
-                    <form action="{% url 'send_message' pk=profile.pk %}" method="get"
+                <div class="buttons">
+                    <form action="{% url 'send_message' pk=profile.pk %}" method="post"
                           style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Send Message</button>
+                        <button type="submit" class="btn btn-primary" style="margin: 0 auto">Send Message</button>
                     </form>
+
                     {% if not is_subscribed %}
                         <form action="{% url 'subscribe_profile' pk=profile.pk %}" method="post"
                               style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Subscribe</button>
+                            <button type="submit" class="btn btn-primary" style="margin: 0 auto">Subscribe</button>
                         </form>
+
                     {% elif is_subscribed %}
                         <form action="{% url 'unsubscribe_profile' pk=profile.pk %}" method="post"
                               style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Unsubscribe</button>
+                            <button type="submit" class="btn btn-primary" style="margin: 0 auto">Unsubscribe</button>
                         </form>
+
                     {% endif %}
                 </div>
+
             {% endif %}
 
         </div>

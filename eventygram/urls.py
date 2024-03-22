@@ -27,7 +27,8 @@ urlpatterns = i18n_patterns(
     path('profile/', include('eventygram.accounts.urls')),
     path('events/', include('eventygram.events.urls')),
     path('tickets/', include('eventygram.tickets.urls')),
-    path('messages/', include('eventygram.messaging.urls'))
+    path('messages/', include('eventygram.messaging.urls')),
+    path('courses/', include('eventygram.courses.urls')),
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

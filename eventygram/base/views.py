@@ -1,16 +1,29 @@
-from eventygram.accounts.models import Profile
 from eventygram.base.forms import ContactForm, SearchForm
 from eventygram.base.models import ContactHistory
+from eventygram.accounts.models import Profile
 from django.shortcuts import render, redirect
+
+from eventygram.courses.models import Course
+from eventygram.events.models import Event
 from django.core.mail import send_mail
 from eventygram import settings
 from django.views import View
-
-from eventygram.events.models import Event
+import random
 
 
 def index(request):
-    return render(request, 'base/index.html')
+    events = random.sample(list(Event.objects.all()), 3)
+    event_one = events[0]
+    event_two = events[1]
+    event_three = events[2]
+
+    context = {
+        'event_one': event_one,
+        'event_two': event_two,
+        'event_three': event_three,
+    }
+
+    return render(request, 'base/index.html', context)
 
 
 def about(request):
@@ -72,8 +85,9 @@ def search_result(request):
     if form.is_valid():
         query = form.cleaned_data['query']
         search_results = {
-            'events': Event.objects.filter(title__icontains=query, is_private=False),
+            'events': Event.objects.filter(title__icontains=query, status='Active'),
             'profiles': Profile.objects.filter(username__icontains=query, is_private=False),
+            'courses': Course.objects.filter(title__icontains=query),
         }
 
     return render(request, 'base/search_results.html', {'search_results': search_results})

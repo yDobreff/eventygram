@@ -13,44 +13,54 @@
                 <div class="form-container">
                     {{ form.is_private }}
                 </div>
-                <br><br>
+                <p></p>
 
-                <strong>Email:</strong>
-                <span> {{ form.email }}</span><br><br>
-                <strong>Phone Number:</strong>
-                <span> {{ form.phone_number }}</span><br><br>
-                <strong>Website:</strong>
-                <span> {{ form.website }}</span><br><br>
+                <p><strong>Email:</strong></p>
+                <p>{{ form.email }}</p>
+
+                <p><strong>Phone Number:</strong></p>
+                <p>{{ form.phone_number }}</p>
+
+                <p><strong>Website:</strong></p>
+                <p>{{ form.website }}</p>
 
                 {% if profile.profile_type == 'User' %}
-                    <strong>First Name:</strong>
-                    <span> {{ form.first_name }}</span><br><br>
-                    <strong>Last Name:</strong>
-                    <span> {{ form.last_name }}</span><br><br>
-                    <strong>Date of birth:</strong>
-                    <span> {{ form.date_of_birth }}</span><br><br>
-                    <strong>Location:</strong>
-                    <span> {{ form.location }}</span><br><br>
-                    <strong>Bio:</strong>
-                    <span>{{ form.bio }}</span><br><br>
+                    <p><strong>First Name:</strong></p>
+                    <p>{{ form.first_name }}</p>
+
+                    <p><strong>Last Name:</strong></p>
+                    <p>{{ form.last_name }}</p>
+
+                    <p><strong>Date of birth:</strong></p>
+                    <p>{{ form.date_of_birth }}</p>
+
+                    <p><strong>Location:</strong></p>
+                    <p>{{ form.location }}</p>
+
+                    <p><strong>Bio:</strong></p>
+                    <p>{{ form.bio }}</p>
 
                 {% elif profile.profile_type == 'Company' %}
-                    <strong>Industry:</strong>
-                    <span>{{ form.industry }}</span><br><br>
-                    <strong>Address:</strong>
-                    <span>{{ form.address }}</span><br><br>
-                    <strong>Description:</strong>
-                    <span>{{ form.description }}</span><br><br>
+                    <p><strong>Industry:</strong></p>
+                    <p>{{ form.industry }}</p>
+
+                    <p><strong>Address:</strong></p>
+                    <p>{{ form.address }}</p>
+
+                    <p><strong>Description:</strong></p>
+                    <p>{{ form.description }}</p>
 
                 {% elif profile.profile_type == 'Organization' %}
-                    <strong>Type:</strong>
-                    <span>{{ form.type }}</span><br><br>
-                    <strong>Mission:</strong>
-                    <span>{{ form.mission }}</span><br><br>
+                    <p><strong>Type:</strong></p>
+                    <p>{{ form.type }}</p>
+
+                    <p><strong>Mission:</strong></p>
+                    <p>{{ form.mission }}</p>
                 {% endif %}
 
-                <strong>Profile Picture</strong>
-                <span>{{ form.profile_picture }}</span><br><br>
+                <p><strong>Profile Picture:</strong></p>
+                <p>{{ form.profile_picture }}</p>
+
 
                 <button type="submit" class="btn btn-primary custom-button">Update</button>
             </form>

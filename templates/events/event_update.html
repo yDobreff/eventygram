@@ -6,7 +6,34 @@
             <h1>Update Event Details</h1><br>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                <strong>{{ form.title.label }}</strong>
+                <span>{{ form.title }}</span><br><br>
+
+                <strong>{{ form.description.label }}</strong>
+                <span>{{ form.description }}</span><br><br>
+
+                <strong>{{ form.location.label }}</strong>
+                <span>{{ form.location }}</span><br><br>
+
+                <strong>{{ form.start_time.label }}</strong>
+                <span>{{ form.start_time }}</span><br><br>
+
+                <strong>{{ form.end_time.label }}</strong>
+                <span>{{ form.end_time }}</span><br><br>
+
+                <strong>{{ form.type.label }}</strong>
+                <span>{{ form.type }}</span><br><br>
+
+                <strong>{{ form.price.label }}</strong>
+                <span>{{ form.price }}</span><br><br>
+
+                <strong>{{ form.status.label }}</strong>
+                <span>{{ form.status }}</span><br><br>
+
+                <strong>{{ form.image.label }}</strong>
+                <span>{{ form.image }}</span><br><br>
+
                 <button type="submit" class="btn btn-primary custom-button">Update</button>
             </form>
         </div>

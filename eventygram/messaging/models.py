@@ -29,11 +29,6 @@ class Message(models.Model):
         default=False
     )
 
-
-class MessageTaskManager(Message):
-    class Meta:
-        proxy = True
-
     def send_message(self, sender, receiver, subject, message_content):
         message = self.objects.create(
             sender=sender,

@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>{{ event.title }}</h1>
+            <form method="post">
+                {% csrf_token %}
+
+                <p><strong>Leave comment:</strong></p>
+                <textarea name="content"></textarea>
+
+                <button class="btn btn-primary" style="margin-top: 5%" type="submit">Submit Comment</button>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

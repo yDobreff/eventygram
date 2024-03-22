@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'style/css/courses_catalogue.css' %}">
+
+    <div class="inner-navbar link-buttons" style="text-align: center; margin-top: 10px">
+        {% for main_category in main_categories %}
+            <div class="dropdown">
+                <a class="link" href="#">{{ main_category.name }}</a>
+                <div class="dropdown-content">
+                    {% for category in main_category.category_set.all %}
+                        <div class="subcategory-dropdown">
+                            <a href="#">{{ category.name }}</a>
+                            <div class="subcategory-content">
+                                {% for subcategory in category.subcategory_set.all %}
+                                    <a href="{% url 'topic_view' pk=subcategory.pk %}">{{ subcategory.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

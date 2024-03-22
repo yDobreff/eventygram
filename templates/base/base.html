@@ -7,6 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}Eventygram{% endblock %}</title>
+    <style>
+        body {
+            background-image: url('{% static 'media/base_imgs/background1.jpg' %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
 
     <link rel="stylesheet" href="{% static 'style/css/base.css' %}">
 
@@ -24,21 +32,21 @@
 
 <div class="navbar">
     <div class="logo">
-        <img src="{% static '/media/logo.png' %}" alt="Logo">
+        <img src="{% static '/media/base_imgs/logo.png' %}" alt="Logo">
     </div>
 
-        <div class="search-container">
+    <div class="search-container">
         <form method="GET" action="{% url 'search_results' %}">
             <input type="text" id="search-bar" name="query" placeholder="Search...">
             <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
         </form>
     </div>
 
-
     <div class="left-links">
         <div class="link-buttons">
             <a class="link" href="{% url 'index' %}">Home</a>
             <a class="link" href="{% url 'events_catalogue' %}">Events</a>
+            <a class="link" href="{% url 'courses_catalogue' %}">Courses</a>
             <a class="link" href="{% url 'about' %}">About</a>
             <a class="link" href="{% url 'contacts' %}">Contact</a>
             {% if user.is_authenticated %}
@@ -48,9 +56,9 @@
     </div>
 
     {% if user.is_authenticated %}
-    <div>
-        Balance: {{ user.balance }}
-    </div>
+        <div>
+            Balance: {{ user.balance }}
+        </div>
     {% endif %}
 
     <div class="right-links">

@@ -4,17 +4,24 @@
 
     <link rel="stylesheet" href="{% static 'style/css/search_page.css' %}">
 
-    <div style="text-align: center">
-        <h1 style="color: black">Profiles</h1><br>
+    <div class="container" style="text-align: center">
+        <h1>Profiles</h1><br>
         {% for profile in search_results.profiles %}
             <li><a href="{% url 'profile_details' pk=profile.pk %}">{{ profile.username }}</a></li>
         {% endfor %}
+
         <hr>
-        <h1 style="color: black">Events</h1><br>
+        <h1>Events</h1><br>
         {% for event in search_results.events %}
-            <li>{{ event.title }}</li>
+            <li><a href="{% url 'event_details' pk=event.pk %}">{{ event.title }}</a></li>
         {% endfor %}
+
         <hr>
+        <h1>Courses</h1><br>
+        {% for course in search_results.courses %}
+            <li><a href="{% url 'course_details' pk=course.pk %}">{{ course.title }}</a></li>
+        {% endfor %}
+
     </div>
 
 {% endblock %}

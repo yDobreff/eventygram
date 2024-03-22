@@ -1,10 +1,10 @@
 from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from eventygram.accounts.forms import CreateProfileForm, UpdateProfileForm
-from eventygram.accounts.models import Profile, ProfileSubscriber
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from eventygram.accounts.models import ProfileSubscriber
 from django.contrib import messages
 from django.views import View
 
@@ -25,26 +25,15 @@ class CreateProfileView(View):
         form = CreateProfileForm(request.POST)
 
         if form.is_valid():
-            profile = form.save(commit=False)
+            new_profile = form.save(commit=False)
             profile_type = form.cleaned_data['profile_type']
-            profile.profile_type = profile_type
-            profile.save()
-            login(request, profile)
+            new_profile.profile_type = profile_type
+            new_profile.save()
+            login(request, new_profile)
 
-            return redirect('successful_registration', pk=profile.pk)
+            return redirect('successful_registration', pk=new_profile.pk)
 
         return render(request, 'accounts/profile_register.html', {'form': form})
-
-
-def successful_registration(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
-
-    context = {
-        'profile': profile
-    }
-
-    return render(request, 'accounts/successful_registration.html', context)
 
 
 class LoginProfileView(View):
@@ -65,7 +54,7 @@ class LoginProfileView(View):
         if form.is_valid():
             profile = form.get_user()
 
-            if profile.groups.first():
+            if profile.groups.exists():
                 profile.is_staff = True
 
             profile.save()
@@ -76,17 +65,7 @@ class LoginProfileView(View):
         return render(request, 'accounts/profile_login.html', {'form': form})
 
 
-def successful_login(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
-
-    context = {
-        'profile': profile
-    }
-
-    return render(request, 'accounts/successful_login.html', context)
-
-
+@login_required
 def logout_profile(request):
     logout(request)
 
@@ -109,21 +88,10 @@ def change_password(request, pk):
 
 
 @login_required
-def successful_password(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
-
-    context = {
-        'profile': profile
-    }
-
-    return render(request, 'accounts/successful_password.html', context)
-
-
-@login_required
 def profile_details(request, pk):
     profile_model = get_user_model()
     profile = get_object_or_404(profile_model, pk=pk)
+
     profile_group = None
     is_subscribed = None
 
@@ -144,19 +112,17 @@ def profile_details(request, pk):
     return render(request, 'accounts/profile_details.html', context)
 
 
-class UpdateProfileView(View):
-    @method_decorator(login_required)
+class UpdateProfileView(LoginRequiredMixin, View):
     def get(self, request, pk):
         profile_model = get_user_model()
         profile = get_object_or_404(profile_model, pk=pk)
 
-        if profile == request.user:
+        if profile.pk == request.user.pk:
             form = UpdateProfileForm(instance=profile)
             return render(request, 'accounts/profile_update.html', {'form': form, 'profile': profile})
         else:
             return redirect('profile_details', pk=request.user.pk)
 
-    @method_decorator(login_required)
     def post(self, request, pk):
         profile_model = get_user_model()
         profile = get_object_or_404(profile_model, pk=pk)
@@ -172,6 +138,7 @@ class UpdateProfileView(View):
             return redirect('profile_details', pk=request.user.pk)
 
 
+@login_required
 def add_balance(request, pk):
     profile_model = get_user_model()
     profile = get_object_or_404(profile_model, pk=pk)
@@ -185,35 +152,37 @@ def add_balance(request, pk):
 
 @login_required
 def subscribe_profile(request, pk):
-    profile_to_subscribe = get_object_or_404(Profile, pk=pk)
     profile = get_user_model()
-    current_user = request.user
-    current_profile = profile.objects.get(pk=current_user.pk)
 
-    if current_profile.pk == profile_to_subscribe.pk:
+    if request.method == 'POST':
+        profile_to_subscribe = get_object_or_404(profile, pk=pk)
+        current_user = request.user
+
+        if current_user.pk == profile_to_subscribe.pk:
+            return redirect('profile_details', pk=pk)
+
+        subscription_exists = ProfileSubscriber.objects.filter(subscriber=current_user,
+                                                               subscribed_to=profile_to_subscribe).exists()
+        if not subscription_exists:
+            ProfileSubscriber.objects.create(subscriber=current_user, subscribed_to=profile_to_subscribe)
+
         return redirect('profile_details', pk=pk)
-
-    subscription_exists = ProfileSubscriber.objects.filter(subscriber=current_profile,
-                                                           subscribed_to=profile_to_subscribe).exists()
-    if not subscription_exists:
-        ProfileSubscriber.objects.create(subscriber=current_profile, subscribed_to=profile_to_subscribe)
-
-    return redirect('profile_details', pk=pk)
 
 
 @login_required
 def unsubscribe_profile(request, pk):
-    profile_to_unsubscribe = get_object_or_404(Profile, pk=pk)
     profile = get_user_model()
-    current_user = request.user
-    current_profile = profile.objects.get(pk=current_user.pk)
 
-    subscription = ProfileSubscriber.objects.filter(subscriber=current_profile,
-                                                    subscribed_to=profile_to_unsubscribe).first()
-    if subscription:
-        subscription.delete()
+    if request.method == 'POST':
+        profile_to_unsubscribe = get_object_or_404(profile, pk=pk)
+        current_user = request.user
 
-    return redirect('profile_details', pk=pk)
+        subscription = ProfileSubscriber.objects.filter(subscriber=current_user,
+                                                        subscribed_to=profile_to_unsubscribe).first()
+        if subscription:
+            subscription.delete()
+
+        return redirect('profile_details', pk=pk)
 
 
 def profile_events(request, pk):
@@ -226,3 +195,15 @@ def profile_events(request, pk):
     }
 
     return render(request, 'accounts/my_events.html', context)
+
+
+def profile_courses(request, pk):
+    profile_model = get_user_model()
+    profile = get_object_or_404(profile_model, pk=pk)
+    courses = profile.course_creator.all()
+
+    context = {
+        'courses': courses,
+    }
+
+    return render(request, 'accounts/my_courses.html', context)

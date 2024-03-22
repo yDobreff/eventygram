@@ -16,12 +16,16 @@ class EventCreationForm(ModelForm):
 class EventUpdateForm(ModelForm):
     class Meta:
         model = Event
-        fields = '__all__'
-        exclude = (
-            'creator',
-            'participants',
-            'available_tickets',
-            'tickets_sales'
+        fields = (
+            'title',
+            'description',
+            'location',
+            'start_time',
+            'end_time',
+            'type',
+            'price',
+            'status',
+            'image',
         )
         widgets = {
             'start_time': CustomDateSelectWidget(),

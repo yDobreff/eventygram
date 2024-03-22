@@ -35,14 +35,9 @@
             {% endfor %}
         </div>
     </div>
-        <div style="text-align: center;">
-        <a class="button" href="{% url 'send_message' pk=user.pk %}">Send Message</a>
-        </div>
-{#        <div class="container-style-one">#}
-    {#            <div style="text-align: center">#}
-    {#                <a href="{% url 'send_message' pk=user.pk %}" class="btn btn-primary"#}
-    {#                   style="background-color: white; color: black; border-radius: 25px">Send Message</a>#}
-    {#            </div>#}
 
+    <div style="text-align: center;">
+        <a class="btn btn-primary" style="margin-bottom: 15px" href="{% url 'send_message' pk=user.pk %}">Send Message</a>
+    </div>
 
 {% endblock %}

@@ -7,22 +7,36 @@
     <div class="container">
         {% for event in events %}
             {% if event.status == 'Active' %}
-            <strong> {{ event.image }}</strong><br>
-            <strong> {{ event.creator }}</strong><br>
-            <strong>Title: {{ event.title }}</strong><br>
-            <strong>Location: {{ event.location }}</strong><br>
-            <strong>Price: {{ event.price }}</strong><br>
-            <strong>Status: {{ event.status }}</strong><br>
-            <strong>Participants: {{ event.participants.all.count }}</strong><br>
-            <strong>Type: {{ event.type }}</strong><br>
-            <strong>Start Time: {{ event.start_time }}</strong><br>
-            <strong>End Time: {{ event.end_time }}</strong><br>
+                {% if event.image %}
+                    <div class="image-wrap">
+                        <img src="{{ event.image.url }}" alt="Profile Picture">
+                    </div>
+                {% else %}
+                    <span class="grey-text"> No event image available.</span>
+                {% endif %}
+                <br><br>
+                <strong>Creator: {{ event.creator }}</strong><br>
+                <strong>Title: {{ event.title }}</strong><br>
+                <strong>Location: {{ event.location }}</strong><br>
+                <strong>Price: {{ event.get_price_display }}</strong><br>
+                <strong>Status: {{ event.status }}</strong><br>
+                <strong>Likes: {{ event.likes }}</strong><br>
+                <strong>Participants: {{ event.participants.all.count }}</strong><br>
+                <strong>Type: {{ event.type }}</strong><br>
+                <strong>Start Time: {{ event.start_time }}</strong><br>
+                <strong>End Time: {{ event.end_time }}</strong><br>
 
-            {% if event.tickets_sales %}
-                <strong>Available Tickets: {{ event.available_tickets }}</strong><br>
-            {% endif %}
+                {% if event.tickets_sales and event.available_tickets > 0 %}
+                    <strong>Available Tickets: {{ event.available_tickets }}</strong><br>
+                {% endif %}
 
-            <strong>Description: {{ event.description }}</strong><hr><br>
+                <strong>Description: {{ event.description }}</strong>
+
+                <div style="text-align: center; padding: 20px">
+                    <a class="btn btn-lg btn-primary" href="{% url 'event_details' event.id %}">Details</a>
+                </div>
+                <hr><br>
+
 
             {% endif %}
         {% endfor %}

@@ -2,7 +2,31 @@
 {% block content %}
     <div class="container">
         <div class="form-wrapper">
-            <h1>My Tickets!</h1>
+            <h1>Your Tickets</h1>
+            {% if tickets %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Payment Status</th>
+                        <th>Ticket Number</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.event.title }}</td>
+                            <td>{{ ticket.payment_status }}</td>
+                            <td>{{ ticket.number }}</td>
+                            <td>{{ ticket.price }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No tickets found.</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
