@@ -1,5 +1,5 @@
-from django.contrib import admin
 from eventygram.tickets.models import Ticket
+from django.contrib import admin
 
 
 @admin.register(Ticket)
@@ -9,14 +9,14 @@ class TicketAdmin(admin.ModelAdmin):
         'event',
         'payment_status',
         'number',
-        'purchase_date'
+        'purchase_date',
     ]
     list_filter = [
         'owner',
-        'event'
+        'event',
     ]
 
     search_fields = [
         'event',
-        'type'
+        'type',
     ]

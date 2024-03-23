@@ -1,8 +1,7 @@
-from eventygram.events.choices import EVENT_TYPE_CHOICES, EVENT_STATUS_CHOICES
-from django.core.validators import MinValueValidator, MaxValueValidator
 from eventygram.events.validators import validate_start_time
 from eventygram.events.helpers import event_pic_path
 from eventygram.accounts.models import Profile
+from eventygram.events import choices
 from django.db import models
 import os
 
@@ -41,26 +40,17 @@ class Event(models.Model):
 
     type = models.CharField(
         max_length=100,
-        choices=EVENT_TYPE_CHOICES,
-    )
-
-    tickets_sales = models.BooleanField(
-        default=False
-    )
-
-    available_tickets = models.PositiveIntegerField(
-        blank=True,
-        null=True,
-        default=0,
+        choices=choices.EVENT_TYPES,
     )
 
     participants = models.ManyToManyField(
         Profile,
-        blank=True
+        blank=True,
+        related_name='participants'
     )
 
     status = models.CharField(
-        choices=EVENT_STATUS_CHOICES,
+        choices=choices.EVENT_STATUS,
         null=True,
         blank=True,
         default='Active',
@@ -100,23 +90,13 @@ class Event(models.Model):
         else:
             return "${:.2f}".format(self.price)
 
-    def generate_tickets(self, num_tickets, ticket_price):
-        if num_tickets <= 0:
-            raise ValueError("Number of tickets must be greater than 0.")
+    def tickets_count(self):
+        available_tickets = self.ticket_set.filter(payment_status='Available').count()
 
-        from eventygram.tickets.models import Ticket
-
-        for _ in range(num_tickets):
-            Ticket.objects.create(
-                owner=None,
-                event=self,
-                payment_status='Available',
-                price=ticket_price,
-            )
-
-        self.tickets_sales = True
-        self.price = ticket_price
-        self.save()
+        if available_tickets == 0:
+            return "No tickets available"
+        else:
+            return available_tickets
 
 
 class Like(models.Model):
@@ -126,7 +106,7 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(
+    profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
     )
@@ -134,6 +114,7 @@ class Comment(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
+        related_name='comments',
     )
 
     content = models.TextField()
@@ -141,7 +122,3 @@ class Comment(models.Model):
     date_posted = models.DateTimeField(
         auto_now_add=True
     )
-
-    @property
-    def profile_username(self):
-        return self.user.username

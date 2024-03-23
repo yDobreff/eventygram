@@ -1,4 +1,4 @@
-EVENT_TYPE_CHOICES = [
+EVENT_TYPES = [
     ('Concerts', 'Concerts'),
     ('Sports', 'Sports'),
     ('Cultural', 'Cultural'),
@@ -23,7 +23,7 @@ EVENT_TYPE_CHOICES = [
     ('Other', 'Other')
 ]
 
-EVENT_STATUS_CHOICES = [
+EVENT_STATUS = [
     ('Disabled', 'Disabled'),
     ('Active', 'Active'),
     ('Private', 'Private'),

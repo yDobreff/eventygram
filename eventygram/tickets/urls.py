@@ -1,3 +1,5 @@
+from django.views.generic import TemplateView
+
 from eventygram.tickets.views import CreateTicketView, MyTicketsView
 from eventygram.tickets import views
 from django.urls import path
@@ -9,6 +11,6 @@ urlpatterns = [
     path('successful_ticket_creation/<int:event_id>/', views.successful_ticket_creation,
          name='successful_ticket_creation'),
     path('<int:event_id>/buy_tickets/', views.buy_tickets, name='buy_tickets'),
-    path('<int:event_id>/ticket_purchase_successful/', views.ticket_purchase_successful,
-         name='ticket_purchase_successful'),
+    path('<int:event_id>/ticket_purchase_successful/', TemplateView.as_view(
+        template_name='tickets/tickets_purchase_successful.html'), name='ticket_purchase_successful'),
 ]

@@ -1,7 +1,9 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
-from eventygram.courses.choices import STUDY_METHODS, COURSE_LEVELS
+from eventygram.courses.helpers import course_pic_path
 from eventygram.accounts.models import Profile
+from eventygram.courses import choices
 from django.db import models
+import os
 
 
 class MainCategory(models.Model):
@@ -54,6 +56,25 @@ class Course(models.Model):
         max_length=200,
     )
 
+    topic = models.CharField(
+        max_length=200,
+    )
+
+    content = models.TextField(
+        null=True,
+        blank=True,
+    )
+
+    language = models.CharField(
+        max_length=50,
+        choices=choices.COURSE_LANGUAGES,
+    )
+
+    requirements = models.TextField(
+        null=True,
+        blank=True,
+    )
+
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -62,20 +83,38 @@ class Course(models.Model):
         blank=True,
     )
 
-    description = models.TextField()
+    description = models.TextField(
+        null=True,
+        blank=True,
+    )
 
     location = models.CharField(
         max_length=150,
+        null=True,
+        blank=True,
     )
 
     study_method = models.CharField(
         max_length=40,
-        choices=STUDY_METHODS,
+        choices=choices.STUDY_METHODS,
     )
 
     level = models.CharField(
         max_length=20,
-        choices=COURSE_LEVELS,
+        choices=choices.COURSE_LEVELS,
+    )
+
+    status = models.CharField(
+        choices=choices.COURSE_STATUS,
+        null=True,
+        blank=True,
+        default='Active',
+    )
+
+    image = models.ImageField(
+        upload_to=course_pic_path,
+        blank=True,
+        null=True,
     )
 
     subcategory = models.ForeignKey(
@@ -84,6 +123,32 @@ class Course(models.Model):
         blank=True,
         null=True,
     )
+
+    students = models.ManyToManyField(
+        Profile,
+        blank=True,
+        related_name='students'
+    )
+
+    instructors = models.ManyToManyField(
+        Profile,
+        blank=True,
+        related_name='instructors',
+    )
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            try:
+                old_instance = Course.objects.get(pk=self.pk)
+            except Course.DoesNotExist:
+                pass
+            else:
+                if old_instance.image != self.image and old_instance.image:
+                    os.remove(old_instance.image.path)
+        super().save(*args, **kwargs)
 
     @property
     def avg_rating(self):
@@ -94,6 +159,12 @@ class Course(models.Model):
             return average_rating
         else:
             return None
+
+    def get_price_display(self):
+        if self.price == 0.0:
+            return "Free"
+        else:
+            return "${:.2f}".format(self.price)
 
 
 class Review(models.Model):

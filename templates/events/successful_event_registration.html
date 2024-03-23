@@ -4,11 +4,11 @@
     <div class="container">
         <div class="form-wrapper">
             <h2>Event registered successfully!</h2>
-            <br>
-            <h4>Thank you for contributing to the community!</h4>
-            <br>
-            <a class="btn btn-lg btn-primary" href="{% url 'event_details' pk=event.pk %}">Event Details</a>
-            <a class="btn btn-lg btn-primary" href="{% url 'index' %}">Home</a>
+            <p>Thank you for contributing to the community!</p>
+            <p>
+                <a class="btn btn-lg btn-primary" href="{% url 'event_details' pk=event.pk %}">Event Details</a>
+                <a class="btn btn-lg btn-primary" href="{% url 'index' %}">Home</a>
+            </p>
         </div>
     </div>
 

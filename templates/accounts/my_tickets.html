@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% block content %}
+
     <div class="container">
         <div class="form-wrapper">
             <h1>Your Tickets</h1>
@@ -20,6 +21,9 @@
                             <td>{{ ticket.payment_status }}</td>
                             <td>{{ ticket.number }}</td>
                             <td>{{ ticket.price }}</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc;">
+                            <td colspan="4"></td>
                         </tr>
                     {% endfor %}
                     </tbody>

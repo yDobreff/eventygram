@@ -1,5 +1,5 @@
+from eventygram.events.models import Event, Like, Comment
 from django.contrib import admin
-from eventygram.events.models import Event
 
 
 @admin.register(Event)
@@ -11,16 +11,33 @@ class EventAdmin(admin.ModelAdmin):
         'start_time',
         'end_time',
         'type',
-        'available_tickets',
-        'get_participants_count',
         'status',
         'price',
     ]
-    list_filter = ['start_time', 'location', 'type', 'price', 'status']
+    list_filter = [
+        'start_time',
+        'location',
+        'type',
+        'price',
+        'status',
+    ]
     search_fields = ['name', 'location']
 
-    def get_participants_count(self, obj):
-        return obj.participants.count()
 
-    get_participants_count.short_description = 'Participants'
+@admin.register(Like)
+class LikeAdmin(admin.ModelAdmin):
+    list_display = [
+        'profile',
+        'event',
+        'created_at',
+    ]
 
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = [
+        'profile',
+        'event',
+        'content',
+        'date_posted',
+    ]

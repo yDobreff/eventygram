@@ -1,4 +1,4 @@
-from eventygram.courses.models import MainCategory, Category, SubCategory
+from eventygram.courses.models import MainCategory, Category, SubCategory, Course, Review
 from django.contrib import admin
 
 
@@ -23,3 +23,31 @@ class SubCategoryAdmin(admin.ModelAdmin):
     ]
     
     
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = [
+        'creator',
+        'title',
+        'topic',
+        'content',
+        'language',
+        'requirements',
+        'price',
+        'description',
+        'location',
+        'study_method',
+        'level',
+        'status',
+        'subcategory',
+    ]
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = [
+        'profile',
+        'course',
+        'rating',
+        'comment',
+        'date_posted',
+    ]

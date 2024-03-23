@@ -1,7 +1,7 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms.widgets import SelectDateWidget
 from eventygram.accounts.models import Profile
+from django import forms
 
 
 class CreateProfileForm(UserCreationForm):
@@ -14,7 +14,6 @@ class CreateProfileForm(UserCreationForm):
             'password1',
             'password2',
             'email',
-
         ]
 
 

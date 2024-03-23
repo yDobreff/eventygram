@@ -7,7 +7,7 @@
             <br>
             {% if event.image %}
                 <div class="image-wrap">
-                    <img src="{{ event.image.url }}" alt="Profile Picture">
+                    <img src="{{ event.image.url }}" alt="Event Picture">
                 </div>
             {% else %}
                 <span class="grey-text"> No event image available.</span>
@@ -26,9 +26,7 @@
 
             <p><strong>Likes:</strong> <span>{{ event.likes }}</span></p>
 
-            {% if event.tickets_sales and event.available_tickets > 0 %}
-                <p><strong>Available tickets:</strong> <span>{{ event.available_tickets }}</span></p>
-            {% endif %}
+            <p><strong>Available tickets:</strong> <span>{{ event.tickets_count }}</span></p>
 
             <p><strong>Participants:</strong> <span>{{ event.participants.count }}</span></p>
 
@@ -55,11 +53,25 @@
             {% else %}
                 <div style="display: flex; justify-content: center;">
                     {% if user.is_authenticated %}
-                        {% if event.tickets_sales and event.available_tickets > 0 %}
+                        {% if event.tickets_count > 0 %}
                             <button class="btn btn-primary" style="margin: 0 auto; display: block;">
                                 <a href="{% url 'buy_tickets' event_id=event.pk %}">Buy Ticket</a>
                             </button>
                         {% endif %}
+
+
+                        {% if not user_participated and user_has_ticket %}
+                            <form action="{% url 'participate_event' pk=event.pk %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Participate</button>
+                            </form>
+                        {% elif user_participated %}
+                            <form action="{% url 'withdraw_event_participation' pk=event.pk %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Withdraw Participation</button>
+                            </form>
+                        {% endif %}
+
                         <button class="btn btn-primary" style="margin: 0 auto; display: block;">
                             <a href="{% url 'leave_comment' pk=event.pk %}">Comment</a>
                         </button>
@@ -79,10 +91,12 @@
             {% endif %}
 
         </div>
+
+
         <div class="form-wrapper" style="margin-top: 1%">
             <h1>Comments</h1>
             {% for comment in comments %}
-                <p><strong>{{ comment.profile_username }}:</strong>
+                <p><strong>{{ comment.profile.username }}:</strong>
                     <span>{{ comment.content }}</span> * {{ comment.date_posted }}</p>
             {% endfor %}
         </div>

@@ -2,8 +2,9 @@ from django.contrib.auth import login, logout, get_user_model, update_session_au
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from eventygram.accounts.forms import CreateProfileForm, UpdateProfileForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from eventygram.accounts.helpers import profile_picture_change
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from eventygram.accounts.models import ProfileSubscriber
 from django.contrib import messages
 from django.views import View
@@ -131,6 +132,7 @@ class UpdateProfileView(LoginRequiredMixin, View):
             form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
             if form.is_valid():
                 form.save()
+                profile_picture_change(profile, form.cleaned_data.get('profile_picture'))
                 return redirect('profile_details', pk=profile.pk)
             else:
                 return render(request, 'accounts/profile_update.html', {'form': form})

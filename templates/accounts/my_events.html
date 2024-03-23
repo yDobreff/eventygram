@@ -33,9 +33,7 @@
             <p><strong>Start Time: {{ event.start_time }}</strong></p>
             <p><strong>End Time: {{ event.end_time }}</strong></p>
 
-            {% if event.tickets_sales %}
-                <p><strong>Available Tickets: {{ event.available_tickets }}</strong></p>
-            {% endif %}
+            <p><strong>Available Tickets: {{ event.tickets_count }}</strong></p>
 
             <p><strong>Description: {{ event.description }}</strong></p>
 

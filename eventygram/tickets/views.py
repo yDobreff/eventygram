@@ -1,11 +1,12 @@
-import random
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from eventygram.tickets.forms import CreateTicketForm, BuyTicketsForm
 from eventygram.accounts.models import Profile
+from eventygram.tickets.helpers import generate_unique_number
+from eventygram.tickets.models import Ticket
 from eventygram.events.models import Event
 from django.views import View
-
-from eventygram.tickets.models import Ticket
+import random
 
 
 class CreateTicketView(View):
@@ -32,15 +33,20 @@ class CreateTicketView(View):
                 event = Event.objects.get(id=event_id)
                 price = event.price
                 num_tickets = form.cleaned_data['num_tickets']
+                tickets_to_create = []
 
-                event.generate_tickets(
-                    num_tickets=num_tickets,
-                    ticket_price=price,
-                )
+                for _ in range(num_tickets):
+                    ticket = Ticket(
+                        owner=None,
+                        event=event,
+                        payment_status='Available',
+                        price=price,
+                        number=generate_unique_number()
+                    )
 
-                event.available_tickets += num_tickets
-                event.ticket_sales = True
-                event.save()
+                    tickets_to_create.append(ticket)
+
+                Ticket.objects.bulk_create(tickets_to_create)
 
                 return redirect('successful_ticket_creation', event_id=event_id)
             else:
@@ -53,7 +59,7 @@ class CreateTicketView(View):
 class MyTicketsView(View):
     def get(self, request, pk):
         user = get_object_or_404(Profile, pk=pk)
-        tickets = user.ticket_set.all()
+        tickets = user.tickets.all()
 
         context = {
             'user': user,
@@ -78,47 +84,33 @@ def successful_ticket_creation(request, event_id):
     return render(request, 'tickets/successful_ticket_creation.html', context)
 
 
+@login_required
 def buy_tickets(request, event_id):
-    event = Event.objects.get(id=event_id)
+    event = get_object_or_404(Event, id=event_id)
+    profile = get_object_or_404(Profile, pk=request.user.pk)
+    available_tickets = Ticket.objects.filter(event=event, payment_status='Available')
     form = BuyTicketsForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         num_tickets = form.cleaned_data['num_tickets']
         ticket_price = event.price
-        profile = get_object_or_404(Profile, pk=request.user.pk)
         balance = profile.balance
 
-        if balance < num_tickets * ticket_price:
-            pass
-        else:
-            available_tickets = Ticket.objects.filter(event=event, payment_status='Available')
-
-            if available_tickets.count() < num_tickets:
-                pass
-            else:
+        if balance >= num_tickets * ticket_price:
+            if available_tickets.count() >= num_tickets:
                 selected_tickets = random.sample(list(available_tickets), num_tickets)
 
                 for ticket in selected_tickets:
-                    ticket.owner = profile
                     ticket.payment_status = 'Paid'
+                    ticket.owner = profile
                     ticket.save()
 
                 profile.deduct_balance(num_tickets * ticket_price)
-                event.available_tickets -= num_tickets
-                event.save()
                 event.creator.add_balance(num_tickets * ticket_price)
-
-            return redirect('ticket_purchase_successful', event_id=event.pk)
+                return redirect('ticket_purchase_successful', event_id=event.pk)
 
     context = {
         'form': form,
         'event': event,
     }
-
     return render(request, 'tickets/buy_tickets.html', context)
-
-
-def ticket_purchase_successful(request, event_id):
-    context = {}
-
-    return render(request, 'tickets/tickets_purchase_successful.html', context)

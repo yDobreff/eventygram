@@ -1,4 +1,4 @@
-PAYMENT_STATUS_CHOICES = [
+PAYMENT_STATUS = [
     ('Pending', 'Pending'),
     ('Paid', 'Paid'),
     ('Cancelled', 'Cancelled'),

@@ -8,45 +8,45 @@
             <form method="post" action="{% url 'event_create' %}">
                 {% csrf_token %}
 
-                <div class="form-group">
-                    <label>{{ form.title.label }}</label>
-                    {{ form.title }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.title.label }}</strong></label><br>
+                    {{ form.title }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.type.label }}</label>
-                    {{ form.type }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.type.label }}</strong></label><br>
+                    {{ form.type }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.location.label }}</label>
-                    {{ form.location }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.location.label }}</strong></label><br>
+                    {{ form.location }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.start_time.label }}</label>
-                    {{ form.start_time }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.start_time.label }}</strong></label><br>
+                    {{ form.start_time }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.end_time.label }}</label>
-                    {{ form.end_time }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.end_time.label }}</strong></label><br>
+                    {{ form.end_time }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.price.label }}</label>
-                    {{ form.price }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.price.label }}</strong></label><br>
+                    {{ form.price }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.image.label }}</label>
-                    {{ form.image }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.description.label }}</strong></label><br>
+                    {{ form.description }}
+                </p>
 
-                <label>{{ form.description.label }}</label><br>
-                <div class="form-group">
-                    {{ form.description }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.image.label }}</strong></label><br>
+                    {{ form.image }}
+                </p>
 
                 <div class="error-container">
                     <span>{{ form.errors }}</span>

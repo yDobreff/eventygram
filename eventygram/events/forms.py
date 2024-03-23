@@ -16,7 +16,7 @@ class EventCreationForm(ModelForm):
 class EventUpdateForm(ModelForm):
     class Meta:
         model = Event
-        fields = (
+        fields = [
             'title',
             'description',
             'location',
@@ -26,7 +26,8 @@ class EventUpdateForm(ModelForm):
             'price',
             'status',
             'image',
-        )
+        ]
+
         widgets = {
             'start_time': CustomDateSelectWidget(),
             'end_time': CustomDateSelectWidget(),

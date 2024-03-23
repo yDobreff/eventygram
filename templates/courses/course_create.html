@@ -8,30 +8,55 @@
             <form method="post" action="{% url 'course_create' %}">
                 {% csrf_token %}
 
-                <div class="form-group">
-                    <label>{{ form.title.label }}</label>
-                    {{ form.title }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.title.label }}</strong></label><br>
+                    {{ form.title }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.type.label }}</label>
-                    {{ form.type }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.topic.label }}</strong></label><br>
+                    {{ form.topic }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.location.label }}</label>
-                    {{ form.location }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.study_method.label }}</strong></label><br>
+                    {{ form.study_method }}
+                </p>
 
-                <div class="form-group">
-                    <label>{{ form.price.label }}</label>
-                    {{ form.price }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.language.label }}</strong></label><br>
+                    {{ form.language }}
+                </p>
 
-                <label>{{ form.description.label }}</label><br>
-                <div class="form-group">
-                    {{ form.description }} <br><br>
-                </div>
+                <p>
+                    <label><strong>{{ form.level.label }}</strong></label><br>
+                    {{ form.level }}
+                </p>
+
+                <p>
+                    <label><strong>{{ form.price.label }}</strong></label><br>
+                    {{ form.price }}
+                </p>
+
+                <p>
+                    <label><strong>{{ form.content.label }}</strong></label><br>
+                    {{ form.content }}
+                </p>
+
+                <p>
+                    <label><strong>{{ form.requirements.label }}</strong></label><br>
+                    {{ form.requirements }}
+                </p>
+
+                <p>
+                    <label><strong>{{ form.description.label }}</strong></label><br>
+                    {{ form.description }}
+                </p>
+
+                <p>
+                    <label><strong>{{ form.image.label }}</strong></label><br>
+                    {{ form.image }}
+                </p>
 
                 <div class="error-container">
                     <span>{{ form.errors }}</span>

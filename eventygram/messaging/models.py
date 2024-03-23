@@ -37,9 +37,3 @@ class Message(models.Model):
             message=message_content
         )
         return message
-
-    def get_received_messages(self, user):
-        return self.objects.filter(receiver=user)
-
-    def get_unread_messages(self, user):
-        return self.objects.filter(receiver=user, is_read=False)

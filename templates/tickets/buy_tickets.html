@@ -6,9 +6,11 @@
             <h1>Buy Tickets</h1><br>
             <form method="post" action="">
                 {% csrf_token %}
-                {{ event.price }}
+
+                <p><strong>Ticket price: </strong>{{ event.price }}</p>
                 {{ form.as_p }}
-                <button type="submit">Buy Ticket</button>
+
+                <button class="btn btn-primary" type="submit">Buy Ticket</button>
             </form>
         </div>
     </div>

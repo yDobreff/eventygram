@@ -1,5 +1,5 @@
-from django.forms import ModelForm
 from eventygram.messaging.models import Message
+from django.forms import ModelForm
 
 
 class MessageForm(ModelForm):
@@ -8,5 +8,5 @@ class MessageForm(ModelForm):
         fields = [
             'receiver',
             'subject',
-            'message'
+            'message',
         ]

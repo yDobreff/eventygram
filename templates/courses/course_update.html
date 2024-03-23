@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>Update Course Details</h1><br>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <p><strong>{{ form.title.label }}</strong></p>
+                <p>{{ form.title }}</p>
+
+                <p><strong>{{ form.topic.label }}</strong></p>
+                <p>{{ form.topic }}</p>
+
+                <p><strong>{{ form.price.label }}</strong></p>
+                <p>{{ form.price }}</p>
+
+                <p><strong>{{ form.status.label }}</strong></p>
+                <p>{{ form.status }}</p>
+
+                <p><strong>{{ form.language.label }}</strong></p>
+                <p>{{ form.language }}</p>
+
+                <p><strong>{{ form.study_method.label }}</strong></p>
+                <p>{{ form.study_method }}</p>
+
+                <p><strong>{{ form.level.label }}</strong></p>
+                <p>{{ form.level }}</p>
+
+                {% if course.study_method == 'Classroom' or course.study_method == 'In-company' %}
+                    <p><strong>{{ form.location.label }}</strong></p>
+                    <p>{{ form.location }}</p>
+                {% endif %}
+
+                <p><strong>{{ form.requirements.label }}</strong></p>
+                <p>{{ form.requirements }}</p>
+
+                <p><strong>{{ form.description.label }}</strong></p>
+                <p>{{ form.description }}</p>
+
+                <p><strong>{{ form.content.label }}</strong></p>
+                <p>{{ form.content }}</p>
+
+                <p><strong>{{ form.image.label }}</strong></p>
+                <p>{{ form.image }}</p>
+
+                <button type="submit" class="btn btn-primary custom-button">Update</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

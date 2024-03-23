@@ -1,0 +1,18 @@
+#TO DO
+#
+#
+# - Review and add project error messages
+# - Add 'Cart' app.
+# - Add 'Notification' app.
+# - Add 'Funding' app, which will handle profile balance, event and course funding.
+# - Add payment methods.
+# - Add profile dashboard with stats and analytics,
+#                   including custom point system for contributing to the community.
+# - Add chat rooms for courses and events, DISCORD lookalike.
+# - Add Vouchers/Coupons.
+# - Internationalization, translate web app.
+# - Create Course:
+#           Multilevel dropdown field with category choices.
+#           Content field - list with drop down.
+#           Videos, Exercises, Assignments, Articles, Downloadable resources.
+#

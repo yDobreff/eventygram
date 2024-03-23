@@ -11,7 +11,7 @@ import os
 class Profile(AbstractUser):
     profile_type = models.CharField(
         max_length=20,
-        choices=choices.PROFILE_TYPE_CHOICES,
+        choices=choices.PROFILE_TYPES,
         null=False,
         blank=False
     )
@@ -20,7 +20,7 @@ class Profile(AbstractUser):
         default=False,
     )
 
-    # FIELDS FOR ALL TYPES
+    # FIELDS FOR ALL PROFILE TYPES
 
     email = models.EmailField(
         unique=True,
@@ -142,16 +142,21 @@ class ProfileSubscriber(models.Model):
     subscriber = models.ForeignKey(
         Profile,
         related_name='subscriptions',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     subscribed_to = models.ForeignKey(
         Profile,
         related_name='subscribers',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
-    subscribed_at = models.DateTimeField(auto_now_add=True)
+    subscribed_at = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     class Meta:
-        unique_together = ('subscriber', 'subscribed_to',)
+        unique_together = [
+            'subscriber',
+            'subscribed_to',
+        ]

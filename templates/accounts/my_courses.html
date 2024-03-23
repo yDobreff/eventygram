@@ -10,8 +10,44 @@
 
     {% if user.is_authenticated %}
         <div style="text-align: center; padding: 20px">
-            <a class="btn btn-lg btn-primary" href="{% url 'create_course'  %}">Create Course</a>
+            <a class="btn btn-lg btn-primary" href="{% url 'course_create'  %}">Create Course</a>
         </div>
     {% endif %}
+
+    <div class="container" style="text-align: center; color: #ffffff">
+        {% for course in courses %}
+            {% if course.image %}
+                <div class="image-wrap">
+                    <img src="{{ course.image.url }}" alt="Course Image">
+                </div>
+            {% else %}
+                <p class="grey-text">No course image available.</p>
+            {% endif %}
+            <br><br>
+            <p><strong>Title: {{ course.title }}</strong></p>
+            <p><strong>Topic: {{ course.topic }}</strong></p>
+            <p><strong>Price: {{ course.get_price_display }}</strong></p>
+            <p><strong>Status: {{ course.status }}</strong></p>
+            <p><strong>Students: {{ course.students.count }}</strong></p>
+            <p><strong>Level: {{ course.level }}</strong></p>
+            <p><strong>Language: {{ course.language }}</strong></p>
+            <p><strong>Study method: {{ course.study_method }}</strong></p>
+            <p>
+                {% if course.location is not None %}
+                    <strong>Location: {{ course.location }}</strong>
+                {% endif %}
+            </p>
+            <p><strong>Requirements: {{ course.requirements }}</strong></p>
+            <p><strong>Description: {{ course.description }}</strong></p>
+            <p><strong>Content: {{ course.content }}</strong></p>
+
+            <div style="text-align: center; padding: 20px">
+                <a class="btn btn-lg btn-primary" href="{% url 'course_details' course.id %}">Details</a>
+            </div>
+
+            <hr><br>
+
+        {% endfor %}
+    </div>
 
 {% endblock %}
