@@ -6,7 +6,7 @@
     <p>Eventygram is a Django Web App project that aims to be the go-to platform for finding and creating events and courses in Bulgaria, with plans to expand to Europe and worldwide. With a focus on providing a comprehensive range of events, courses, and activities, Eventygram offers users the opportunity to connect, learn, and discover new experiences.</p>
 
    <h2>Technology Used</h2>
-   <ul>
+   <ul style="list-style-position: inside;">
        <li>Python</li>
        <li>Django</li>
        <li>HTML</li>
@@ -18,20 +18,20 @@
    <p>To populate the database with Courses categories, use the SQL query provided in the populate_db_courses_categories.txt file.</p>
 
    <h2>Project Structure</h2>
-   <ul>
+  <ul style="list-style-position: inside;">
        <li>TODO.txt: List of tasks to be done</li>
        <li>courses_categories_as_dict.txt: File containing course categories as a dict for future reference</li>
    </ul>
 
    <h2>Features Implemented</h2>
-   <ul>
+   <ul style="list-style-position: inside;">
        <li>Three profile types for registration: Individual, Company, Organization</li>
        <li>Navbar with links to Home, Events, Courses, About, Contact</li>
        <li>User can view events, courses, comments, and use the contact form</li>
    </ul>
 
    <h2>Planned Features</h2>
-   <ul>
+   <ul style="list-style-position: inside;">
        <li>Review and improve project error messages</li>
        <li>Implementation of a 'Cart' app</li>
    </ul>
