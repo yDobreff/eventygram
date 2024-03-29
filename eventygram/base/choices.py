@@ -1,0 +1,38 @@
+PRICE_RANGES = [
+    ('', 'Select Price Range'),
+    ('0-50', '0 - 50'),
+    ('50-150', '50 - 150'),
+    ('150-500', '150 - 500'),
+    ('500-1500', '500 - 1500'),
+    ('1500+', '1500+'),
+]
+
+EVENT_CATEGORIES = [
+    'Concerts & Festivals',
+    'Sports',
+    'Cultural',
+    'Education',
+    'Community',
+    'Entertainment',
+    'Science & Technology',
+    'Finance & Business',
+    'Fashion',
+    'Arts & Crafts',
+    'Religious & Spiritual',
+    'Food & Beverage',
+    'Hobbies & Interests',
+    'Environment',
+    'Automotive',
+    'Manufacturing',
+    'Retail',
+    'Health and Wellness',
+    'Hospitality and Tourism',
+    'Energy',
+    'Fundraising & Charity',
+    'Telecommunications',
+    'Construction and Real Estate',
+    'Transportation and Logistics',
+    'Government and Non-Profit',
+    'Consulting and Professional Services',
+    'Other'
+]

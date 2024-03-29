@@ -45,10 +45,50 @@
     <div class="left-links">
         <div class="link-buttons">
             <a class="link" href="{% url 'index' %}">Home</a>
-            <a class="link" href="{% url 'events_catalogue' %}">Events</a>
+            <div class="custom-dropdown">
+                <a class="link" href="{% url 'events_catalogue' %}">Events</a>
+                <div class="custom-dropdown-content">
+                    <a href="{% url 'events_catalogue' %}?type=Concerts">Concerts & Festivals</a>
+                    <a href="{% url 'events_catalogue' %}?type=Sports">Sports</a>
+                    <a href="{% url 'events_catalogue' %}?type=Cultural">Cultural</a>
+                    <a href="{% url 'events_catalogue' %}?type=Education">Education</a>
+                    <a href="{% url 'events_catalogue' %}?type=Community">Community</a>
+                    <a href="{% url 'events_catalogue' %}?type=Entertainment">Entertainment</a>
+                    <a href="{% url 'events_catalogue' %}?type=Science%20%26%20Technology">Science &
+                        Technology</a>
+                    <a href="{% url 'events_catalogue' %}?type=Finance%20%26%20Business">Finance & Business</a>
+                    <a href="{% url 'events_catalogue' %}?type=Fashion">Fashion</a>
+                    <a href="{% url 'events_catalogue' %}?type=Arts%20%26%20Crafts">Arts & Crafts</a>
+                    <a href="{% url 'events_catalogue' %}?type=Religious%20%26%20Spiritual">Religious &
+                        Spiritual</a>
+                    <a href="{% url 'events_catalogue' %}?type=Food%20%26%20Beverage">Food & Beverage</a>
+                    <a href="{% url 'events_catalogue' %}?type=Hobbies%20%26%20Interests">Hobbies & Interests</a>
+                    <a href="{% url 'events_catalogue' %}?type=Environment">Environment</a>
+                    <a href="{% url 'events_catalogue' %}?type=Automotive">Automotive</a>
+                    <a href="{% url 'events_catalogue' %}?type=Manufacturing">Manufacturing</a>
+                    <a href="{% url 'events_catalogue' %}?type=Retail">Retail</a>
+                    <a href="{% url 'events_catalogue' %}?type=Health%20and%20Wellness">Health and Wellness</a>
+                    <a href="{% url 'events_catalogue' %}?type=Hospitality%20and%20Tourism">Hospitality and
+                        Tourism</a>
+                    <a href="{% url 'events_catalogue' %}?type=Energy">Energy</a>
+                    <a href="{% url 'events_catalogue' %}?type=Fundraising%20%26%20Charity">Fundraising &
+                        Charity</a>
+                    <a href="{% url 'events_catalogue' %}?type=Telecommunications">Telecommunications</a>
+                    <a href="{% url 'events_catalogue' %}?type=Construction%20and%20Real%20Estate">Construction
+                        and Real Estate</a>
+                    <a href="{% url 'events_catalogue' %}?type=Transportation%20and%20Logistics">Transportation
+                        and Logistics</a>
+                    <a href="{% url 'events_catalogue' %}?type=Government%20and%20Non-Profit">Government and
+                        Non-Profit</a>
+                    <a href="{% url 'events_catalogue' %}?type=Consulting%20and%20Professional%20Services">Consulting
+                        and Professional Services</a>
+                    <a href="{% url 'events_catalogue' %}?type=Other">Other</a>
+                </div>
+            </div>
             <a class="link" href="{% url 'courses_catalogue' %}">Courses</a>
             <a class="link" href="{% url 'about' %}">About</a>
             <a class="link" href="{% url 'contacts' %}">Contact</a>
+
             {% if user.is_authenticated %}
                 <a class="link" href="{% url 'profile_details' pk=user.pk %}">Profile</a>
             {% endif %}

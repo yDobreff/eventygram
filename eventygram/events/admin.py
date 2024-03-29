@@ -7,6 +7,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'description',
+        'region',
         'location',
         'start_time',
         'end_time',
@@ -16,6 +17,7 @@ class EventAdmin(admin.ModelAdmin):
     ]
     list_filter = [
         'start_time',
+        'region',
         'location',
         'type',
         'price',

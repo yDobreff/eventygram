@@ -1,8 +1,9 @@
-from eventygram.events.forms import EventCreationForm, EventUpdateForm
+from eventygram.events.forms import EventCreationForm, EventUpdateForm, EventFilterForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from eventygram.events.models import Event, Like, Comment
+from eventygram.events.helpers import get_price_range
 from eventygram.tickets.models import Ticket
 from django.views import View
 
@@ -10,9 +11,36 @@ from django.views import View
 class EventsCatalogueView(View):
     def get(self, request, *args, **kwargs):
         events = Event.objects.all()
+        form = EventFilterForm(request.GET)
+
+        if form.is_valid():
+            event_type_dropdown = request.GET.get('type')
+            event_type_filter = form.cleaned_data.get('type')
+
+            if event_type_dropdown:
+                events = events.filter(type=event_type_dropdown)
+            elif event_type_filter:
+                events = events.filter(type=event_type_filter)
+
+            region = form.cleaned_data.get('region')
+            price_range = form.cleaned_data.get('price_range')
+
+            if region:
+                events = events.filter(region=region)
+            if price_range:
+                min_price, max_price = get_price_range(price_range)
+                if min_price is not None and max_price is not None:
+                    events = events.filter(price__gte=min_price, price__lte=max_price)
+
+        sort_by = request.GET.get('sort_by')
+        if sort_by == 'likes':
+            events = events.order_by('-likes')
+        elif sort_by == 'price':
+            events = events.order_by('price')
 
         context = {
             'events': events,
+            'form': form,
         }
 
         return render(request, 'events/events_catalogue.html', context)
@@ -35,7 +63,7 @@ class EventCreateView(LoginRequiredMixin, View):
             event.creator = request.user
             event.save()
             form.save_m2m()
-            return redirect('successful_course_registration', pk=event.pk)
+            return redirect('successful_event_registration', pk=event.pk)
         else:
             context = {
                 'form': form

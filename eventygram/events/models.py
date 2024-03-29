@@ -21,6 +21,13 @@ class Event(models.Model):
 
     description = models.TextField()
 
+    region = models.CharField(
+        max_length=100,
+        choices=choices.REGIONS,
+        null=True,
+        blank=True,
+    )
+
     location = models.CharField(
         max_length=150,
     )

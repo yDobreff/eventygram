@@ -1,5 +1,6 @@
 .inner-navbar {
     position: relative;
+    border-bottom: 3px solid white;
 }
 
 .inner-navbar .link::before {
@@ -26,7 +27,7 @@
     display: inline-block;
 }
 
-/*This is my dropdown course categories menu*/
+/* Dropdown course categories menu */
 
 .dropdown {
     position: relative;
@@ -80,14 +81,62 @@
     display: block;
 }
 
-
-.link {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #000;
-    text-decoration: none;
+.filter-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-.link:hover {
-    background-color: #ddd;
+.sort-options {
+    margin-top: 20px;
+}
+
+.sort-options form {
+    display: flex;
+    align-items: center;
+}
+
+.sort-options select,
+.sort-options button {
+    margin-left: 10px;
+}
+
+.courses-container {
+    padding: 20px;
+}
+
+.course-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    color: white;
+}
+
+.course-item {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.course-item img {
+    width: 300px;
+    height: 250px;
+    margin-right: 20px;
+}
+
+.course-details {
+    flex-grow: 1;
+    margin-bottom: 10px;
+}
+
+.price {
+    margin-top: auto;
+    text-align: right;
+}
+
+.action-buttons {
+    flex-basis: 100%;
+    text-align: center;
 }

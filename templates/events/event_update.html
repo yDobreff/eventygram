@@ -3,36 +3,39 @@
 
     <div class="container">
         <div class="form-wrapper">
-            <h1>Update Event Details</h1><br>
+            <h1>Update Event Details</h1>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <strong>{{ form.title.label }}</strong>
-                <span>{{ form.title }}</span><br><br>
+                <p><strong>{{ form.title.label }}</strong></p>
+                <p>{{ form.title }}</p>
 
-                <strong>{{ form.description.label }}</strong>
-                <span>{{ form.description }}</span><br><br>
+                <p><strong>{{ form.description.label }}</strong></p>
+                <p>{{ form.description }}</p>
 
-                <strong>{{ form.location.label }}</strong>
-                <span>{{ form.location }}</span><br><br>
+                <p><strong>{{ form.region.label }}</strong></p>
+                <p>{{ form.region }}</p>
 
-                <strong>{{ form.start_time.label }}</strong>
-                <span>{{ form.start_time }}</span><br><br>
+                <p><strong>{{ form.location.label }}</strong></p>
+                <p>{{ form.location }}</p>
 
-                <strong>{{ form.end_time.label }}</strong>
-                <span>{{ form.end_time }}</span><br><br>
+                <p><strong>{{ form.start_time.label }}</strong></p>
+                <p>{{ form.start_time }}</p>
 
-                <strong>{{ form.type.label }}</strong>
-                <span>{{ form.type }}</span><br><br>
+                <p><strong>{{ form.end_time.label }}</strong></p>
+                <p>{{ form.end_time }}</p>
 
-                <strong>{{ form.price.label }}</strong>
-                <span>{{ form.price }}</span><br><br>
+                <p><strong>{{ form.type.label }}</strong></p>
+                <p>{{ form.type }}</p>
 
-                <strong>{{ form.status.label }}</strong>
-                <span>{{ form.status }}</span><br><br>
+                <p><strong>{{ form.price.label }}</strong></p>
+                <p>{{ form.price }}</p>
 
-                <strong>{{ form.image.label }}</strong>
-                <span>{{ form.image }}</span><br><br>
+                <p><strong>{{ form.status.label }}</strong></p>
+                <p>{{ form.status }}</p>
+
+                <p><strong>{{ form.image.label }}</strong></p>
+                <p>{{ form.image }}</p>
 
                 <button type="submit" class="btn btn-primary custom-button">Update</button>
             </form>

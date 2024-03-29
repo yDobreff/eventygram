@@ -1,8 +1,8 @@
 from eventygram.base.forms import ContactForm, SearchForm
+from eventygram.base.choices import EVENT_CATEGORIES
 from eventygram.base.models import ContactHistory
 from eventygram.accounts.models import Profile
 from django.shortcuts import render, redirect
-
 from eventygram.courses.models import Course
 from eventygram.events.models import Event
 from django.core.mail import send_mail
@@ -12,15 +12,28 @@ import random
 
 
 def index(request):
-    events = random.sample(list(Event.objects.all()), 3)
-    event_one = events[0]
-    event_two = events[1]
-    event_three = events[2]
+    event_one = None
+    event_two = None
+    event_three = None
+    events_available = False
+
+    try:
+        events = list(Event.objects.all()[:3])
+        event_one = events[0] if events else None
+        event_two = events[1] if len(events) > 1 else None
+        event_three = events[2] if len(events) > 2 else None
+        events_available = True if events else False
+    except (IndexError, ValueError) as e:
+        pass
+
+    dropdown_items = EVENT_CATEGORIES
 
     context = {
         'event_one': event_one,
         'event_two': event_two,
         'event_three': event_three,
+        'dropdown_items': dropdown_items,
+        'events_available': events_available,
     }
 
     return render(request, 'base/index.html', context)

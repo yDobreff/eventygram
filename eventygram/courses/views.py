@@ -1,5 +1,5 @@
 from eventygram.courses.models import MainCategory, SubCategory, Review, Course
-from eventygram.courses.forms import CourseCreateForm, CourseUpdateForm
+from eventygram.courses.forms import CourseCreateForm, CourseUpdateForm, CourseFilterForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -9,9 +9,28 @@ from django.views import View
 class CoursesCatalogueView(View):
     def get(self, request, *args, **kwargs):
         main_categories = MainCategory.objects.all()
+        courses = Course.objects.all()
+
+        filter_form = CourseFilterForm(request.GET)
+        study_method = request.GET.get('study_method')
+        price_range = request.GET.get('price_range')
+        language = request.GET.get('language')
+        level = request.GET.get('level')
+
+        if study_method:
+            courses = courses.filter(study_method=study_method)
+        if price_range:
+            min_price, max_price = price_range.split('-')
+            courses = courses.filter(price__gte=min_price, price__lte=max_price)
+        if language:
+            courses = courses.filter(language=language)
+        if level:
+            courses = courses.filter(level=level)
 
         context = {
             'main_categories': main_categories,
+            'courses': courses,
+            'filter_form': filter_form,
         }
 
         return render(request, 'courses/courses_catalogue.html', context)

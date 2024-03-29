@@ -1,5 +1,54 @@
-.container {
-    text-align: center;
-    padding: 2%;
-    color: white;
+.filter-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
 }
+
+.sort-options {
+    margin-top: 20px;
+}
+
+.sort-options form {
+    display: flex;
+    align-items: center;
+}
+
+.sort-options select,
+.sort-options button {
+    margin-left: 10px;
+}
+
+.events-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    color: white;
+    text-align: center;
+}
+
+.event-item {
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.event-item img {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+}
+
+.event-details {
+    margin-top: 10px;
+}
+
+.action-buttons {
+    margin-top: 10px;
+    text-align: center;
+}
+

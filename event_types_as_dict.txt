@@ -1,0 +1,17 @@
+EVENT_TYPES = {
+    'Sports': ['Football', 'Basketball', 'Tennis', 'Boxing', 'Golf', 'MMA', 'Athletics', 'Swimming',],
+    'Entertainment': ['Concerts & Music', 'Movie Premieres', 'Stand-up Comedy Shows', 'Theater Productions', 'Circus Performances', 'Magic Shows',],
+    'Education': ['Seminars', 'Webinars', 'Workshops', 'School Graduations', 'Skill Development Programs', 'Educational Exhibitions',],
+    'Fundraising': ['Charity auctions', 'Benefit Concerts', 'Online Crowdfunding Campaigns',],
+    'Business & Trade': ['Conferences', 'Trade Shows', 'Product Launches', 'Job Fairs',],
+    'Cultural': ['Art Exhibitions', 'Food Festival', 'Cultural Festival', 'Fashion Shows', 'Music Festivals', 'Film Festivals', 'Literary Festivals', 'Traditional Dance Performances',],
+    'Political': ['Elections', 'Campaign Events', 'Protests',],
+    'Health and Wellness': ['Fitness Expos', 'Yoga Retreats', 'Wellness Workshops', 'Medical Conferences', 'Health Fairs', 'Nutrition Seminars'],
+    'Hospitality and Tourism': ['Holidays', 'Restaurants', 'Resort Openings', 'Tour Packages', 'Travel Expos', 'Cruise Ship Launches', 'Hotel Anniversaries'],
+    'Fashion': ['Fashion Weeks', 'Designer Showcases', 'Model Auditions', 'Fashion Awards', 'Pop-up Shops'],
+    'Automotive': ['Car Shows', 'Auto Expos', 'Vehicle Launch Events', 'Test Drive Events', 'Motorsport Races'],
+    'Technology': ['Tech Conventions', 'Hackathons', 'Product Launch Events', 'Developer Conferences', 'Startup Competitions', 'AI Summits', 'Blockchain Conferences', 'Cybersecurity Summits',],
+    'Science': ['Science Fairs', 'Technology Demonstrations',],
+    'Environmental': ['Climate Change Conferences', 'Earth Day Events', 'Environmental Clean-up Campaigns', 'Sustainability Workshops',],
+    'Community': ['Fairs & Festivals', 'Neighborhood Gatherings', 'Community Service Projects', 'Volunteer Drives', 'Civic Engagement Workshops'],
+}

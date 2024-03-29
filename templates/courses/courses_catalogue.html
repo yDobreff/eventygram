@@ -24,4 +24,60 @@
         {% endfor %}
     </div>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 filter-container">
+                <form method="GET" action="">
+                    {{ filter_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+                <div class="sort-options">
+                    <label for="sort_by">Sort by:</label>
+                    <form method="GET" action="">
+                        <select id="sort_by" name="sort_by">
+                            <option value="price">Price</option>
+                        </select>
+                        {% for key, value in request.GET.items %}
+                            {% if key != 'sort_by' %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                            {% endif %}
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Sort</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if courses %}
+                <div class="col-md-9 courses-container">
+                    <div class="course-list">
+                        {% for course in courses %}
+                            <div class="course-item">
+                                <div class="image-container">
+                                    {% if course.image %}
+                                        <img src="{{ course.image.url }}" alt="Course Image">
+                                    {% else %}
+                                        <img src="{% static '/media/course_pics/no_image.jpg' %}" alt="Course Image">
+                                    {% endif %}
+                                </div>
+                                <div class="course-details">
+                                    <h3>{{ course.title }}</h3>
+                                    <p>{{ course.topic }}</p>
+                                    <p>Creator: {{ course.creator }}</p>
+                                    <p>Level: {{ course.level }}</p>
+                                    <p>Study Method: {{ course.study_method }}</p>
+                                </div>
+                                <div class="price">
+                                    <p><strong>Price: {{ course.get_price_display }}</strong></p>
+                                </div>
+                                <div class="action-buttons">
+                                    <a class="btn btn-primary" href="{% url 'course_details' course.id %}">Details</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}

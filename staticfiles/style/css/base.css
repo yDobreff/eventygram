@@ -1,4 +1,4 @@
-/*This is my custom color gradient*/
+/* Custom color gradient */
 
 :root {
     --gradient-color-start: #ffffff;
@@ -21,7 +21,7 @@
     background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-mid1), var(--gradient-color-mid2), var(--gradient-color-end));
 }
 
-/*This is my body style*/
+/* Body */
 
 body {
     margin: 0;
@@ -29,7 +29,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/*This is my navigation bar*/
+/* Navigation bar */
 
 .navbar {
     background-color: #ffffff;
@@ -113,7 +113,7 @@ body {
     font-size: large;
 }
 
-/*This is my footer*/
+/* Footer */
 
 * {
     padding: 0;
@@ -204,7 +204,7 @@ footer {
 
 }
 
-/*This is my 'About' page css styling*/
+/* 'About' page */
 
 .about-container {
     padding: 20px;
@@ -253,7 +253,7 @@ footer {
     text-decoration: underline;
 }
 
-/*Those are mine custom containers and wrappers*/
+/* Custom containers and wrappers */
 
 .container {
     padding: 30px;
@@ -332,7 +332,7 @@ footer {
     object-fit: cover;
 }
 
-/*This is my register form css*/
+/* Register form */
 
 .profile-type-group .profile-type-btn {
     padding: 10px 20px;
@@ -347,7 +347,7 @@ footer {
     display: inline-block;
 }
 
-/*This is my event`s carousel*/
+/* Event`s carousel*/
 
 .form-group {
     display: flex;
@@ -405,7 +405,7 @@ textarea {
     text-align: center;
 }
 
-/*This is my search bar*/
+/* Search bar */
 
 .search-container {
     position: relative;
@@ -425,4 +425,42 @@ textarea {
     border: none;
     background: none;
     cursor: pointer;
+}
+
+/* Dropdown navbar */
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    column-count: 2;
+    column-gap: 20px;
+    font-size: 14px;
+    padding: 20px;
+    overflow: hidden;
+    top: 100%;
+    left: calc(50% - 150px);
+}
+
+.custom-dropdown-content a {
+    color: black;
+    padding: 12px 0;
+    text-decoration: none;
+    display: block;
+}
+
+.custom-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.custom-dropdown:hover .custom-dropdown-content {
+    display: block;
 }
