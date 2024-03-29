@@ -125,7 +125,7 @@
 
 
 ### :dart: Planed Features
-- Review and improve project error messages
+- Review and improve project error handling and error messages
 - Implementation of a 'Cart' app
 - Addition of a 'Notification' app
 - Development of a 'Funding' app for profile balance, event, and course funding
