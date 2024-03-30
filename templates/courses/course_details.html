@@ -1,14 +1,22 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block content %}
+
+    <link rel="stylesheet" href="{% static 'style/css/review.css' %}">
+
+    <style>
+        .average-rating::before {
+            --percent: calc({{ course.average_rating }} / 5 * 100%);
+        }
+    </style>
 
     <div class="container">
         <div class="form-wrapper">
             <h1>COURSE DETAILS</h1>
             <br>
             {% if course.image %}
-                <div class="image-wrap">
-                    <img src="{{ course.image.url }}" alt="Course Picture">
-                </div>
+                <img src="{{ course.image.url }}" alt="Course Picture"
+                     style="object-fit: contain; width: 100%; height: 100%; border-radius: 5%">
             {% else %}
                 <span class="grey-text"> No course image available.</span>
             {% endif %}
@@ -20,11 +28,19 @@
 
             <p><strong>Study method:</strong> <span>{{ course.study_method }}</span></p>
 
+            <p><strong>Status: </strong>{{ course.status }}</p>
+
+            <p><strong>Students: </strong>{{ course.students.count }}</p>
+
             <p><strong>Language:</strong> <span>{{ course.language }}</span></p>
 
             <p><strong>Level:</strong> <span>{{ course.level }}</span></p>
 
-            <p><strong>Price:</strong> <span>{{ course.price }}</span></p>
+            <p><strong>Price:</strong> <span>{{ course.get_price_display }}</span></p>
+
+            {% if course.location is not None %}
+                <p><strong>Location: </strong> <span>{{ course.location }}</span></p>
+            {% endif %}
 
             <p><strong>Requirements:</strong> <span>{{ course.requirements }}</span></p>
 
@@ -35,14 +51,29 @@
             <p><strong>Instructors:</strong>
                 {% for instructor in course.instructors.all %}
                     <a href="{% url 'profile_details' pk=instructor.pk %}">{{ instructor.username }}</a>
-                    {% if not forloop.last %}, {% endif %}
                 {% endfor %}
             </p>
+
+            {% if course.review_set.all %}
+                <p style="margin-right: 110px">Rating:
+                    <meter class="average-rating" min="0" max="5" value="{{ course.average_rating }}"
+                           title="{{ course.average_rating }} out of 5 stars">
+                    </meter>
+                </p>
+
+                <p>
+                    <a href="{% url 'course_reviews' pk=course.pk %}">Check reviews</a>
+                </p>
+            {% endif %}
 
             {% if user.pk == course.creator.pk %}
                 <div style="display: flex; justify-content: center;">
                     <button class="btn btn-primary" style="margin: 0 auto; display: block;">
                         <a href="{% url 'course_update' pk=course.pk %}">Update Course Details</a>
+                    </button>
+
+                    <button class="btn btn-primary" style="margin: 0 auto; display: block;">
+                        <a href="{% url 'course_review' pk=course.pk %}">Write a review</a>
                     </button>
 
                     <button class="btn btn-primary" style="margin: 0 auto; display: block;">

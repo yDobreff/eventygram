@@ -1,5 +1,5 @@
-from eventygram.courses.models import MainCategory, SubCategory, Review, Course
 from eventygram.courses.forms import CourseCreateForm, CourseUpdateForm, CourseFilterForm
+from eventygram.courses.models import MainCategory, SubCategory, Review, Course
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -84,7 +84,7 @@ def successful_course_registration(request, pk):
 
 def course_details(request, pk):
     course = get_object_or_404(Course, pk=pk)
-    reviews = Review.objects.all()
+    reviews = Review.objects.filter(course=course)
 
     context = {
         'course': course,
@@ -129,3 +129,35 @@ def course_delete(request, pk):
     }
 
     return render(request, 'courses/course_delete.html', context)
+
+
+@login_required
+def course_review(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+
+    if request.method == 'POST':
+        star_rating = int(request.POST.get('star-input'))
+        comment = request.POST.get('comment', '')
+
+        Review.objects.create(
+            profile=request.user,
+            course=course,
+            rating=star_rating,
+            comment=comment,
+        )
+
+        return redirect('course_details', pk=course.pk)
+
+    context = {}
+
+    return render(request, 'courses/course_review.html', context)
+
+
+def course_reviews(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+
+    context = {
+        'course': course,
+    }
+
+    return render(request, 'courses/course_reviews.html', context)

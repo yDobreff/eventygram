@@ -36,3 +36,33 @@ EVENT_CATEGORIES = [
     'Consulting and Professional Services',
     'Other'
 ]
+
+REGIONS = [
+    ('Blagoevgrad', 'Blagoevgrad'),
+    ('Burgas', 'Burgas'),
+    ('Dobrich', 'Dobrich'),
+    ('Gabrovo', 'Gabrovo'),
+    ('Haskovo', 'Haskovo'),
+    ('Kardzhali', 'Kardzhali'),
+    ('Kyustendil', 'Kyustendil'),
+    ('Lovech', 'Lovech'),
+    ('Montana', 'Montana'),
+    ('Pazardzhik', 'Pazardzhik'),
+    ('Pernik', 'Pernik'),
+    ('Pleven', 'Pleven'),
+    ('Plovdiv', 'Plovdiv'),
+    ('Razgrad', 'Razgrad'),
+    ('Ruse', 'Ruse'),
+    ('Shumen', 'Shumen'),
+    ('Silistra', 'Silistra'),
+    ('Sliven', 'Sliven'),
+    ('Smolyan', 'Smolyan'),
+    ('Sofia', 'Sofia'),
+    ('Stara Zagora', 'Stara Zagora'),
+    ('Targovishte', 'Targovishte'),
+    ('Varna', 'Varna'),
+    ('Veliko Tarnovo', 'Veliko Tarnovo'),
+    ('Vidin', 'Vidin'),
+    ('Vratsa', 'Vratsa'),
+    ('Yambol', 'Yambol')
+]

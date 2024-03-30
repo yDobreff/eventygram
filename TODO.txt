@@ -1,19 +1,26 @@
 #TO DO
 #
-#
 # - Add Error handling and error messages, where neccessary.
 # - Add 'Cart' app.
 # - Add 'ChatBot' app.
 # - Add 'Notification' app.
+# - Add 'Archive' app, which will store deleted data for 30 days.
 # - Add 'Funding' app, which will handle profile balance, event and course funding.
 # - Add payment methods.
 # - Add profile dashboard with stats and analytics,
 #                   including custom point system for contributing to the community.
 # - Add chat rooms for courses and events, DISCORD lookalike.
-# - Add Vouchers/Coupons.
+# - Add Vouchers/Coupons/Tickets.
 # - Internationalization and Localization, translate web app.
 # - Create Course:
 #           Multilevel dropdown field with category choices.
 #           Content field - list with drop down.
 #           Videos, Exercises, Assignments, Articles, Downloadable resources.
+# - Add few background themes for user preferences.
+# - Add Course buy option.
 #
+#
+#BUGS TO FIX
+#
+# - When creating profile,event or course it doesn`t upload the image, only on updating
+#                    profile,event or course is  uploading the photo successfully.

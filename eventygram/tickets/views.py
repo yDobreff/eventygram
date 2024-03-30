@@ -1,10 +1,11 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
 from eventygram.tickets.forms import CreateTicketForm, BuyTicketsForm
-from eventygram.accounts.models import Profile
+from django.shortcuts import render, get_object_or_404, redirect
 from eventygram.tickets.helpers import generate_unique_number
+from django.contrib.auth.decorators import login_required
+from eventygram.accounts.models import Profile
 from eventygram.tickets.models import Ticket
 from eventygram.events.models import Event
+from django.contrib import messages
 from django.views import View
 import random
 
@@ -108,6 +109,12 @@ def buy_tickets(request, event_id):
                 profile.deduct_balance(num_tickets * ticket_price)
                 event.creator.add_balance(num_tickets * ticket_price)
                 return redirect('ticket_purchase_successful', event_id=event.pk)
+            else:
+                error_message = "Not enough available tickets."
+        else:
+            error_message = "Insufficient balance."
+
+        messages.error(request, error_message)
 
     context = {
         'form': form,

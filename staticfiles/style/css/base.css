@@ -42,7 +42,7 @@ body {
 }
 
 .logo img {
-    max-width: 200px;
+    max-width: 150px;
 }
 
 .left-links,
@@ -52,7 +52,6 @@ body {
 }
 
 .left-links {
-    margin-right: 20px;
 }
 
 .link-buttons {
@@ -67,8 +66,8 @@ body {
 .link {
     color: #002366;
     text-decoration: none;
-    padding: 8px 16px;
-    margin-right: 10px;
+    padding: 8px 12px;
+    margin-right: 5px;
     position: relative;
 }
 
@@ -111,6 +110,7 @@ body {
     margin-right: 10px;
     font-style: italic;
     font-size: large;
+    padding-left: 5px;
 }
 
 /* Footer */
@@ -220,7 +220,6 @@ footer {
     margin-bottom: 10px;
     margin-top: 15px;
     border-radius: 40px;
-    border: solid white;
 }
 
 .about-container ul,
@@ -239,9 +238,8 @@ footer {
 
 .about-container ul {
     list-style-type: none;
-    list-style-position: inside;
-    margin-left: 20px;
-    text-align: center;
+    margin-left: 0;
+    padding-left: 0;
 }
 
 .about-container a {
@@ -291,10 +289,6 @@ footer {
 
 .form-wrapper h5 {
     color: white;
-}
-
-.form-wrapper span {
-    color: slategray;
 }
 
 .form-wrapper strong {
@@ -411,6 +405,7 @@ textarea {
     position: relative;
     display: flex;
     align-items: center;
+    margin-left: 5px;
 }
 
 #search-bar {

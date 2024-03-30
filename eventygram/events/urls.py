@@ -1,5 +1,3 @@
-from django.views.generic import TemplateView
-
 from eventygram.events.views import EventsCatalogueView, EventCreateView
 from eventygram.accounts import views as accounts_views
 from eventygram.events import views
@@ -17,5 +15,6 @@ urlpatterns = [
     path('<int:pk>/unlike', views.unlike_event, name='unlike_event'),
     path('<int:pk>/leave_comment/', views.leave_comment, name='leave_comment'),
     path('<int:pk>/participate/', views.participate_event, name='participate_event'),
-    path('<int:pk>/withdraw_event_participation/', views.withdraw_event_participation, name='withdraw_event_participation'),
+    path('<int:pk>/withdraw_event_participation/', views.withdraw_event_participation,
+         name='withdraw_event_participation'),
 ]

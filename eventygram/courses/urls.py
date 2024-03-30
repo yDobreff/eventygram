@@ -12,8 +12,6 @@ urlpatterns = [
     path('<int:pk>/details/', views.course_details, name='course_details'),
     path('<int:pk>/update/', views.course_update, name='course_update'),
     path('<int:pk>/delete/', views.course_delete, name='course_delete'),
-    # path('<int:pk>/my_events/', accounts_views.profile_events, name='user_events'),
-    # path('<int:pk>/like', views.like_event, name='like_event'),
-    # path('<int:pk>/unlike', views.unlike_event, name='unlike_event'),
-    # path('<int:pk>/leave_comment/', views.leave_comment, name='leave_comment'),
+    path('<int:pk>/review/', views.course_review, name='course_review'),
+    path('<int:pk>/reviews/', views.course_reviews, name='course_reviews'),
 ]

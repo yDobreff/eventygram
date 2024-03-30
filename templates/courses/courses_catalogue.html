@@ -54,9 +54,10 @@
                             <div class="course-item">
                                 <div class="image-container">
                                     {% if course.image %}
-                                        <img src="{{ course.image.url }}" alt="Course Image">
+                                        <img src="{{ course.image.url }}" style="border-radius: 10%" alt="Course Image">
                                     {% else %}
-                                        <img src="{% static '/media/course_pics/no_image.jpg' %}" alt="Course Image">
+                                        <img src="{% static '/media/base_imgs/no_image.jpg' %}"
+                                             style="border-radius: 10%" alt="Course Image">
                                     {% endif %}
                                 </div>
                                 <div class="course-details">

@@ -31,9 +31,11 @@
                     <div class="events-grid">
                         {% for event in events %}
                             {% if event.status == 'Active' %}
-                                {% if event.image %}
-                                    <div class="event-item">
+                                <div class="event-item">
+                                    {% if event.image %}
                                         <img src="{{ event.image.url }}" alt="Event Image">
+                                    {% endif %}
+                                    <div class="event-details-container">
                                         <p><strong>{{ event.title }}</strong></p>
                                         <div class="event-details">
                                             <p><strong>{{ event.region }}</strong></p>
@@ -44,7 +46,7 @@
                                                href="{% url 'event_details' event.id %}">Details</a>
                                         </div>
                                     </div>
-                                {% endif %}
+                                </div>
                             {% endif %}
                         {% endfor %}
                     </div>

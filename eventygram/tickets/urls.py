@@ -1,6 +1,5 @@
-from django.views.generic import TemplateView
-
 from eventygram.tickets.views import CreateTicketView, MyTicketsView
+from django.views.generic import TemplateView
 from eventygram.tickets import views
 from django.urls import path
 

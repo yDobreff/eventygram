@@ -1,7 +1,8 @@
 from eventygram.events.widgets import CustomDateSelectWidget
+from eventygram.events import choices as event_choices
+from eventygram.base import choices as base_choices
 from eventygram.base.choices import PRICE_RANGES
 from eventygram.events.models import Event
-from eventygram.events import choices
 from django.forms import ModelForm
 from django import forms
 
@@ -41,7 +42,7 @@ class EventUpdateForm(ModelForm):
 class EventFilterForm(forms.Form):
 
     price_range = forms.ChoiceField(choices=PRICE_RANGES, required=False)
-    type_choices = [('', 'Select Event Type')] + choices.EVENT_TYPES
+    type_choices = [('', 'Select Event Type')] + event_choices.EVENT_TYPES
     type = forms.ChoiceField(choices=type_choices, required=False)
-    region_choices = [('', 'Select Region')] + choices.REGIONS
+    region_choices = [('', 'Select Region')] + base_choices.REGIONS
     region = forms.ChoiceField(choices=region_choices, required=False)

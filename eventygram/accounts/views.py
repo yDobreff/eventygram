@@ -187,6 +187,7 @@ def unsubscribe_profile(request, pk):
         return redirect('profile_details', pk=pk)
 
 
+@login_required
 def profile_events(request, pk):
     profile_model = get_user_model()
     profile = get_object_or_404(profile_model, pk=pk)
@@ -199,6 +200,7 @@ def profile_events(request, pk):
     return render(request, 'accounts/my_events.html', context)
 
 
+@login_required
 def profile_courses(request, pk):
     profile_model = get_user_model()
     profile = get_object_or_404(profile_model, pk=pk)

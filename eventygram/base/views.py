@@ -14,15 +14,28 @@ import random
 def index(request):
     event_one = None
     event_two = None
-    event_three = None
-    events_available = False
+    course_one = None
+    course_two = None
+    items_available = False
 
     try:
-        events = list(Event.objects.all()[:3])
-        event_one = events[0] if events else None
-        event_two = events[1] if len(events) > 1 else None
-        event_three = events[2] if len(events) > 2 else None
-        events_available = True if events else False
+        events = list(Event.objects.all())
+        courses = list(Course.objects.all())
+
+        if events:
+            if len(events) == 1:
+                event_one = events[0]
+            else:
+                event_one, event_two = random.sample(events, min(len(events), 2))
+
+        if courses:
+            if len(courses) == 1:
+                course_one = courses[0]
+            else:
+                course_one, course_two = random.sample(courses, min(len(courses), 2))
+
+        items_available = bool(event_one or event_two or course_one or course_two)
+
     except (IndexError, ValueError) as e:
         pass
 
@@ -31,9 +44,10 @@ def index(request):
     context = {
         'event_one': event_one,
         'event_two': event_two,
-        'event_three': event_three,
+        'course_one': course_one,
+        'course_two': course_two,
         'dropdown_items': dropdown_items,
-        'events_available': events_available,
+        'items_available': items_available,
     }
 
     return render(request, 'base/index.html', context)

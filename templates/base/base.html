@@ -9,7 +9,7 @@
     <title>{% block title %}Eventygram{% endblock %}</title>
     <style>
         body {
-            background-image: url('{% static 'media/base_imgs/background1.jpg' %}');
+            background-image: url('{% static 'media/base_imgs/background.jpg' %}');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -31,13 +31,15 @@
 <body>
 
 <div class="navbar">
-    <div class="logo">
-        <img src="{% static '/media/base_imgs/logo.png' %}" alt="Logo">
-    </div>
+    <a href="{% url 'index' %}">
+        <div class="logo">
+            <img src="{% static '/media/base_imgs/logo.png' %}" alt="Logo">
+        </div>
+    </a>
 
     <div class="search-container">
         <form method="GET" action="{% url 'search_results' %}">
-            <input type="text" id="search-bar" name="query" placeholder="Search...">
+            <input type="text" id="search-bar" name="query" placeholder="Search Events, Profiles, Courses...">
             <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
         </form>
     </div>
@@ -86,6 +88,7 @@
                 </div>
             </div>
             <a class="link" href="{% url 'courses_catalogue' %}">Courses</a>
+            <a class="link" href="#">Tickets & Vouchers</a>
             <a class="link" href="{% url 'about' %}">About</a>
             <a class="link" href="{% url 'contacts' %}">Contact</a>
 
@@ -95,13 +98,12 @@
         </div>
     </div>
 
-    {% if user.is_authenticated %}
-        <div>
-            Balance: {{ user.balance }}
-        </div>
-    {% endif %}
-
     <div class="right-links">
+        {% if user.is_authenticated %}
+            <div>
+                Balance: {{ user.balance }}
+            </div>
+        {% endif %}
         <div class="user-greeting">Hello, {{ request.user }}</div>
         <div class="user-buttons">
             {% if user.is_authenticated %}
@@ -129,6 +131,8 @@
             <ul>
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <li><a href="{% url 'events_catalogue' %}">Events</a></li>
+                <li><a href="{% url 'courses_catalogue' %}">Courses</a></li>
+                <li><a href="#">Tickets & Vouchers</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="{% url 'contacts' %}">Contact</a></li>
             </ul>

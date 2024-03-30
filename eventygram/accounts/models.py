@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from eventygram.accounts.helpers import profile_pic_path
 from eventygram.accounts.validators import phone_regex
+from eventygram.base import choices as base_choices
 from django.core.exceptions import ValidationError
 from eventygram.accounts import choices
 from django.db import models
@@ -13,7 +14,8 @@ class Profile(AbstractUser):
         max_length=20,
         choices=choices.PROFILE_TYPES,
         null=False,
-        blank=False
+        blank=False,
+        default="User"
     )
 
     is_private = models.BooleanField(
@@ -50,6 +52,13 @@ class Profile(AbstractUser):
         max_digits=10,
         decimal_places=2,
         default=0,
+    )
+
+    region = models.CharField(
+        max_length=100,
+        choices=base_choices.REGIONS,
+        null=True,
+        blank=True,
     )
 
     # FIELDS FOR INDIVIDUAL USER
@@ -117,6 +126,10 @@ class Profile(AbstractUser):
                         os.remove(old_instance.profile_picture.path)
 
         super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.groups.clear()
+        super().delete(*args, **kwargs)
 
     @property
     def age(self):

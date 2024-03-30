@@ -13,3 +13,6 @@ class ContactHistory(models.Model):
     )
 
     message = models.CharField()
+
+    class Meta:
+        verbose_name_plural = "Contact history"

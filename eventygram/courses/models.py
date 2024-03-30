@@ -2,6 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from eventygram.courses.helpers import course_pic_path
 from eventygram.accounts.models import Profile
 from eventygram.courses import choices
+from django.db.models import Avg
 from django.db import models
 import os
 
@@ -14,6 +15,9 @@ class MainCategory(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Main Categories"
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -22,11 +26,14 @@ class Category(models.Model):
 
     main_category = models.ForeignKey(
         MainCategory,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 class SubCategory(models.Model):
@@ -36,11 +43,14 @@ class SubCategory(models.Model):
 
     category = models.ForeignKey(
         Category,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Sub Categories"
 
 
 class Course(models.Model):
@@ -151,15 +161,10 @@ class Course(models.Model):
         super().save(*args, **kwargs)
 
     @property
-    def avg_rating(self):
-        reviews = self.review_set.all()
-        if reviews:
-            total_rating = sum(review.rating for review in reviews)
-            average_rating = total_rating / len(reviews)
-            return average_rating
-        else:
-            return None
+    def average_rating(self):
+        return self.review_set.aggregate(Avg('rating'))['rating__avg']
 
+    @property
     def get_price_display(self):
         if self.price == 0.0:
             return "Free"

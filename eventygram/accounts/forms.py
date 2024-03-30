@@ -25,6 +25,7 @@ class UpdateProfileForm(UserChangeForm):
             'email',
             'first_name',
             'last_name',
+            'region',
             'location',
             'phone_number',
             'website',

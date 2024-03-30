@@ -4,32 +4,34 @@
 
     <link rel="stylesheet" href="{% static 'style/css/index.css' %}">
 
-    {# Event Carousel #}
+    {# Item Carousel #}
 
-    {% if events_available %}
-        <div id="EventCarousel" class="carousel slide" data-bs-ride="carousel">
+    {% if items_available %}
+        <div id="Carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
-                {% if event_one %}
-                    <button type="button" data-bs-target="#EventCarousel" data-bs-slide-to="0" class="active"
-                            aria-current="true" aria-label="Slide 1"></button>
-                {% endif %}
-                {% if event_two %}
-                    <button type="button" data-bs-target="#EventCarousel" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                {% endif %}
-                {% if event_three %}
-                    <button type="button" data-bs-target="#EventCarousel" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                {% endif %}
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="0" class="active" aria-current="true"
+                        aria-label="Event Slide 1"></button>
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="1"
+                        aria-label="Event Slide 2"></button>
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="2"
+                        aria-label="Course Slide 1"></button>
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="3"
+                        aria-label="Course Slide 2"></button>
             </div>
             <div class="carousel-inner">
                 {% if event_one %}
                     <div class="carousel-item active">
-                        <img src="/media/{{ event_one.image }}" class="d-block w-100" alt="Event 1 Image">
+                        {% if event_one.image %}
+                            <img src="{{ event_one.image.url }}" class="d-block w-100" alt="Event 1 Image">
+                        {% else %}
+                            <img src="/staticfiles/media/base_imgs/no_image.jpg" class="d-block w-100"
+                                 alt="No Image Available">
+                        {% endif %}
                         <div class="container">
                             <div class="carousel-caption">
                                 <h1>{{ event_one.title }}</h1>
                                 <p>{{ event_one.description }}</p>
+                                <p>{{ event_one.location }}</p>
                                 <p><a class="btn btn-lg btn-primary" href="{% url 'event_details' pk=event_one.pk %}">Event
                                     Details</a></p>
                             </div>
@@ -38,25 +40,58 @@
                 {% endif %}
                 {% if event_two %}
                     <div class="carousel-item">
-                        <img src="/media/{{ event_two.image }}" class="d-block w-100" alt="Event 2 Image">
+                        {% if event_two.image %}
+                            <img src="{{ event_two.image.url }}" class="d-block w-100" alt="Event 2 Image">
+                        {% else %}
+                            <img src="/staticfiles/media/base_imgs/no_image.jpg" class="d-block w-100"
+                                 alt="No Image Available">
+                        {% endif %}
                         <div class="container">
                             <div class="carousel-caption">
                                 <h1>{{ event_two.title }}</h1>
                                 <p>{{ event_two.description }}</p>
+                                <p>{{ event_two.location }}</p>
                                 <p><a class="btn btn-lg btn-primary" href="{% url 'event_details' pk=event_two.pk %}">Event
                                     Details</a></p>
                             </div>
                         </div>
                     </div>
                 {% endif %}
-                {% if event_three %}
+                {% if course_one %}
                     <div class="carousel-item">
-                        <img src="/media/{{ event_three.image }}" class="d-block w-100" alt="Event 3 Image">
+                        {% if course_one.image %}
+                            <img src="{{ course_one.image.url }}" class="d-block w-100" alt="Course 1 Image">
+                        {% else %}
+                            <img src="/staticfiles/media/base_imgs/no_image.jpg" class="d-block w-100"
+                                 alt="No Image Available">
+                        {% endif %}
                         <div class="container">
                             <div class="carousel-caption">
-                                <h1>{{ event_three.title }}</h1>
-                                <p>{{ event_three.description }}</p>
-                                <p><a class="btn btn-lg btn-primary" href="{% url 'event_details' pk=event_three.pk %}">Event
+                                <h1>{{ course_one.title }}</h1>
+                                <p>{{ course_one.topic }}</p>
+                                <p>Study method: {{ course_one.study_method }}</p>
+                                <p>Level: {{ course_one.level }}</p>
+                                <p><a class="btn btn-lg btn-primary" href="{% url 'course_details' pk=course_one.pk %}">Course
+                                    Details</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if course_two %}
+                    <div class="carousel-item">
+                        {% if course_two.image %}
+                            <img src="{{ course_two.image.url }}" class="d-block w-100" alt="Course 2 Image">
+                        {% else %}
+                            <img src="/staticfiles/media/base_imgs/no_image.jpg" class="d-block w-100"
+                                 alt="No Image Available">
+                        {% endif %}
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1>{{ course_two.title }}</h1>
+                                <p>{{ course_two.topic }}</p>
+                                <p>Study method: {{ course_two.study_method }}</p>
+                                <p>Level: {{ course_two.level }}</p>
+                                <p><a class="btn btn-lg btn-primary" href="{% url 'course_details' pk=course_two.pk %}">Course
                                     Details</a></p>
                             </div>
                         </div>
@@ -64,45 +99,50 @@
                 {% endif %}
             </div>
             <button class="carousel-control-prev" style="background-color: transparent" type="button"
-                    data-bs-target="#EventCarousel" data-bs-slide="prev">
+                    data-bs-target="#Carousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" style="background-color: transparent" type="button"
-                    data-bs-target="#EventCarousel" data-bs-slide="next">
+                    data-bs-target="#Carousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
     {% endif %}
 
-    {# Columns below Event Carousel #}
+
+
+    {# Columns below Item Carousel #}
 
     <div class="container marketing">
         <div class="row">
             <div class="col-lg-4" style="color: white">
-                <img src="{% static 'media/index_imgs/create.png' %}" class="d-block mx-auto" width="100" height="100"
+                <img src="{% static 'media/index_imgs/events.png' %}" class="d-block mx-auto" width="200" height="200"
                      alt="Create Event">
                 <h2>Find Courses</h2>
-                <p>Here is the place where you can learn and teach.</p>
-                <p><a class="btn btn-primary" href="#">View details &raquo;</a></p>
+                <p>Browse our courses for learning and teaching opportunities, catering to all skill levels. Join our
+                    dynamic community to both learn and share your expertise with others.
+                </p>
+                <p><a class="btn btn-primary" href="{% url 'courses_catalogue' %}">View details</a></p>
             </div>
 
             <div class="col-lg-4" style="color: white">
-                <img src="{% static 'media/index_imgs/tickets.png' %}" class="d-block mx-auto" width="100" height="100"
+                <img src="{% static 'media/index_imgs/tickets.png' %}" class="d-block mx-auto" width="200" height="200"
                      alt="Buy Tickets">
-                <h2>Find Tickets</h2>
-                <p>You can find tickets for most viral events in the country! Best price, zero commissions.</p>
-                <p><a class="btn btn-primary" href="#">View details &raquo;</a></p>
+                <h2>Find Tickets/Vouchers</h2>
+                <p>You can find tickets and vouchers for most viral events and courses in the country! Best price, zero
+                    commissions.</p>
+                <p><a class="btn btn-primary" href="#">View details</a></p>
             </div>
 
             <div class="col-lg-4" style="color: white">
-                <img src="{% static 'media/index_imgs/find.png' %}" class="d-block mx-auto" width="100" height="100"
+                <img src="{% static 'media/index_imgs/courses.png' %}" class="d-block mx-auto" width="200" height="200"
                      alt="Find Event">
                 <h2>Find Events</h2>
-                <p>Find what you need, here you can search courses, events, clubs, seminars and any kind of events in
+                <p>Find what you need, here you can search events, clubs, seminars and any kind of events in
                     your region and country.</p>
-                <p><a class="btn btn-primary" href="#">View details &raquo;</a></p>
+                <p><a class="btn btn-primary" href="{% url 'events_catalogue' %}">View details</a></p>
             </div>
         </div>
 

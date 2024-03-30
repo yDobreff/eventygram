@@ -1,18 +1,24 @@
 {% extends 'base/base.html' %}
-{% block content %}
 
+{% block content %}
     <div class="container">
         <div class="form-wrapper">
-            <h1>Buy Tickets</h1><br>
+            <h1>Buy Tickets</h1>
+            <br>
             <form method="post" action="">
                 {% csrf_token %}
-
                 <p><strong>Ticket price: </strong>{{ event.price }}</p>
                 {{ form.as_p }}
-
                 <button class="btn btn-primary" type="submit">Buy Ticket</button>
             </form>
+            <br>
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
-
 {% endblock %}

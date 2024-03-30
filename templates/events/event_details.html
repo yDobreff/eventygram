@@ -6,9 +6,7 @@
             <h1>EVENT DETAILS</h1>
             <br>
             {% if event.image %}
-                <div class="image-wrap">
-                    <img src="{{ event.image.url }}" alt="Event Picture">
-                </div>
+                <img src="{{ event.image.url }}" style="border-radius: 10%; width: 350px; height: 250px" alt="Event Picture">
             {% else %}
                 <span class="grey-text"> No event image available.</span>
             {% endif %}
@@ -61,14 +59,19 @@
 
 
                         {% if not user_participated and user_has_ticket %}
-                            <form action="{% url 'participate_event' pk=event.pk %}" method="post" style="display: inline;">
+                            <form action="{% url 'participate_event' pk=event.pk %}" method="post"
+                                  style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Participate</button>
+                                <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Participate
+                                </button>
                             </form>
                         {% elif user_participated %}
-                            <form action="{% url 'withdraw_event_participation' pk=event.pk %}" method="post" style="display: inline;">
+                            <form action="{% url 'withdraw_event_participation' pk=event.pk %}" method="post"
+                                  style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Withdraw Participation</button>
+                                <button type="submit" class="btn btn-primary" style="margin: 0 5px;">Withdraw
+                                    Participation
+                                </button>
                             </form>
                         {% endif %}
 
@@ -97,7 +100,7 @@
             <h1>Comments</h1>
             {% for comment in comments %}
                 <p><strong>{{ comment.profile.username }}:</strong>
-                    <span>{{ comment.content }}</span> * {{ comment.date_posted }}</p>
+                    <span>{{ comment.content }}</span> * <span style="color: red">{{ comment.date_posted }}</span></p>
             {% endfor %}
         </div>
     </div>

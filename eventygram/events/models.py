@@ -1,7 +1,8 @@
 from eventygram.events.validators import validate_start_time
+from eventygram.events import choices as events_choices
 from eventygram.events.helpers import event_pic_path
+from eventygram.base import choices as base_choices
 from eventygram.accounts.models import Profile
-from eventygram.events import choices
 from django.db import models
 import os
 
@@ -23,7 +24,7 @@ class Event(models.Model):
 
     region = models.CharField(
         max_length=100,
-        choices=choices.REGIONS,
+        choices=base_choices.REGIONS,
         null=True,
         blank=True,
     )
@@ -47,7 +48,7 @@ class Event(models.Model):
 
     type = models.CharField(
         max_length=100,
-        choices=choices.EVENT_TYPES,
+        choices=events_choices.EVENT_TYPES,
     )
 
     participants = models.ManyToManyField(
@@ -57,7 +58,7 @@ class Event(models.Model):
     )
 
     status = models.CharField(
-        choices=choices.EVENT_STATUS,
+        choices=events_choices.EVENT_STATUS,
         null=True,
         blank=True,
         default='Active',
