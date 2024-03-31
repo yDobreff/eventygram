@@ -7,7 +7,6 @@
         </div>
     </div>
 
-
     {% if user.is_authenticated %}
         <div style="text-align: center; padding: 20px">
             <a class="btn btn-lg btn-primary" href="{% url 'event_create' %}">Create Event</a>
@@ -17,9 +16,8 @@
     <div class="container" style="text-align: center; color: #ffffff">
         {% for event in events %}
             {% if event.image %}
-                <div class="image-wrap">
-                    <img src="{{ event.image.url }}" alt="Event Image">
-                </div>
+                <img src="{{ event.image.url }}" alt="Event Image"
+                     style="height: 250px; width: 350px; border-radius: 5%">
             {% else %}
                 <p class="grey-text">No event image available.</p>
             {% endif %}

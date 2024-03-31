@@ -120,8 +120,8 @@ def like_event(request, pk):
 @login_required
 def unlike_event(request, pk):
     event = get_object_or_404(Event, pk=pk)
-
     like = Like.objects.filter(profile=request.user, event=event).first()
+
     if like:
         like.delete()
         event.likes -= 1

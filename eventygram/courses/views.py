@@ -58,6 +58,7 @@ class CourseCreateView(LoginRequiredMixin, View):
 
     def post(self, request):
         form = CourseCreateForm(request.POST)
+
         if form.is_valid():
             course = form.save(commit=False)
             course.creator = request.user

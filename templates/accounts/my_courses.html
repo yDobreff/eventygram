@@ -18,9 +18,8 @@
     <div class="container" style="text-align: center; color: #ffffff">
         {% for course in courses %}
             {% if course.image %}
-                <div class="image-wrap" style="border-radius: 5%; width: 500px">
-                    <img src="{{ course.image.url }}" alt="Course Image">
-                </div>
+                <img src="{{ course.image.url }}" alt="Course Image"
+                     style="border-radius: 5%; width: 500px">
             {% else %}
                 <img src="{% static 'media/base_imgs/no_image.jpg' %}" alt="No Image"
                      style="width: 500px; height: 250px; border-radius: 5%">

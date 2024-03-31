@@ -1,12 +1,11 @@
-from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from eventygram.accounts.forms import CreateProfileForm, UpdateProfileForm
+from django.contrib.auth import login, logout, update_session_auth_hash
+from eventygram.accounts.models import ProfileSubscriber, Profile
 from django.shortcuts import render, redirect, get_object_or_404
 from eventygram.accounts.helpers import profile_picture_change
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from eventygram.accounts.models import ProfileSubscriber
-from django.contrib import messages
 from django.views import View
 
 
@@ -81,8 +80,6 @@ def change_password(request, pk):
             user = form.save()
             update_session_auth_hash(request, user)
             return redirect('successful_password', pk=request.user.pk)
-        else:
-            messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'accounts/change_password.html', {'form': form})
@@ -90,8 +87,7 @@ def change_password(request, pk):
 
 @login_required
 def profile_details(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
+    profile = get_object_or_404(Profile, pk=pk)
 
     profile_group = None
     is_subscribed = None
@@ -115,8 +111,7 @@ def profile_details(request, pk):
 
 class UpdateProfileView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        profile_model = get_user_model()
-        profile = get_object_or_404(profile_model, pk=pk)
+        profile = get_object_or_404(Profile, pk=pk)
 
         if profile.pk == request.user.pk:
             form = UpdateProfileForm(instance=profile)
@@ -125,8 +120,7 @@ class UpdateProfileView(LoginRequiredMixin, View):
             return redirect('profile_details', pk=request.user.pk)
 
     def post(self, request, pk):
-        profile_model = get_user_model()
-        profile = get_object_or_404(profile_model, pk=pk)
+        profile = get_object_or_404(Profile, pk=pk)
 
         if profile == request.user:
             form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
@@ -142,8 +136,7 @@ class UpdateProfileView(LoginRequiredMixin, View):
 
 @login_required
 def add_balance(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
+    profile = get_object_or_404(Profile, pk=pk)
 
     context = {
         'profile': profile
@@ -154,10 +147,8 @@ def add_balance(request, pk):
 
 @login_required
 def subscribe_profile(request, pk):
-    profile = get_user_model()
-
     if request.method == 'POST':
-        profile_to_subscribe = get_object_or_404(profile, pk=pk)
+        profile_to_subscribe = get_object_or_404(Profile, pk=pk)
         current_user = request.user
 
         if current_user.pk == profile_to_subscribe.pk:
@@ -173,10 +164,8 @@ def subscribe_profile(request, pk):
 
 @login_required
 def unsubscribe_profile(request, pk):
-    profile = get_user_model()
-
     if request.method == 'POST':
-        profile_to_unsubscribe = get_object_or_404(profile, pk=pk)
+        profile_to_unsubscribe = get_object_or_404(Profile, pk=pk)
         current_user = request.user
 
         subscription = ProfileSubscriber.objects.filter(subscriber=current_user,
@@ -189,8 +178,7 @@ def unsubscribe_profile(request, pk):
 
 @login_required
 def profile_events(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
+    profile = get_object_or_404(Profile, pk=pk)
     events = profile.event_creator.all()
 
     context = {
@@ -202,8 +190,7 @@ def profile_events(request, pk):
 
 @login_required
 def profile_courses(request, pk):
-    profile_model = get_user_model()
-    profile = get_object_or_404(profile_model, pk=pk)
+    profile = get_object_or_404(Profile, pk=pk)
     courses = profile.course_creator.all()
 
     context = {
