@@ -88,7 +88,7 @@
                 </div>
             </div>
             <a class="link" href="{% url 'courses_catalogue' %}">Courses</a>
-            <a class="link" href="#">Tickets & Vouchers</a>
+            {#            <a class="link" href="#">Tickets & Vouchers</a>#}
             <a class="link" href="{% url 'about' %}">About</a>
             <a class="link" href="{% url 'contacts' %}">Contact</a>
 
@@ -102,6 +102,9 @@
         {% if user.is_authenticated %}
             <div>
                 Balance: {{ user.balance }}
+                <a class="link" href="#">
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
             </div>
         {% endif %}
         <div class="user-greeting">Hello, {{ request.user }}</div>
@@ -126,20 +129,22 @@
             <a href=""><i class="fa-brands fa-facebook"></i></a>
             <a href=""><i class="fa-brands fa-instagram"></i></a>
             <a href=""><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://github.com/yDobreff/eventygram"><i class="fa-brands fa-github"></i></a>
         </div>
         <div class="footerNav">
             <ul>
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <li><a href="{% url 'events_catalogue' %}">Events</a></li>
                 <li><a href="{% url 'courses_catalogue' %}">Courses</a></li>
-                <li><a href="#">Tickets & Vouchers</a></li>
+                {#                <li><a href="#">Tickets & Vouchers</a></li>#}
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="{% url 'contacts' %}">Contact</a></li>
             </ul>
         </div>
     </div>
     <div class="footerBottom">
-        <p>Copyright &copy;2024 Designed by <span class="designer">Yovko Dobrev</span></p>
+        <p>Copyright &copy;2024 Designed by <span class="designer"><a href="https://github.com/yDobreff/yDobreff">Yovko Dobrev</a></span>
+        </p>
     </div>
 </footer>
 
